@@ -1,0 +1,130 @@
+{% load static %}
+{% block contenido %}
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otaku Odyssey</title>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/style_index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/ignacuo_js.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed">
+            <div class="container-fluid">
+                <a class="navbar-brand" href={% url 'index' %}>
+                    <img src="img/logo.png" alt="logo" style="width:100px;" class="rounded-pill">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'index' %}>Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 't_productos' %}>Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.html">Cuenta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pedidos_user.html">Mis pedidos</a>
+                        </li>
+                    </ul>
+                    <a href="#" id="toggleCart">
+                        <img src="{% static 'img/carrito_blanco.png' %}" alt="Icono de carrito" style="width: 30px;">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="mx-5 mt-4 p-4 bg-dark text-white rounded">
+                    <h1 class="display-1">Contactanos!</h1>
+                    <h3>Puedes ponerte en contacto con nosotros via Correo electronico para cualquier duda sobre nuestros productos.</h3>
+                    <h1>otakuodysseystr@gmail.com</h1>
+                    <h4>Tambien puedes enviarnos retroalimentacion sobre nuestra tienda y así poder ofrecerte una mejor experiencia.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="mx-5 mt-5 mb-4 p-4 bg-dark text-white rounded text-center">
+                    <h1 class="display-1"> Contamos con:</h1>
+                    <a href="https://www.facebook.com/profile.php?id=61558315852897" class="clickable-img">
+                        <img class="img-fluid" src="{% static 'img/facebook_logo.png' %}" alt="facebook_logo" style="width:100px;"/>
+                    </a>
+                    <a href="https://www.instagram.com/otakuodysseystr/" class="clickable-img">
+                        <img class="img-fluid" src="{% static 'img/ig_logo.png' %}" alt="instagram" style="width:100px;"/>
+                    </a>
+                    <a href="https://twitter.com/Otaku_Odyssey" class="clickable-img">
+                        <img class="img-fluid" src="{% static 'img/twitter_logo.png' %}" alt="twitter" style="width:100px;"/>
+                    </a>
+                    <h1>Visítanos en nuestra tienda física!</h1>
+                    <p>Ubicada en: Locación ficticia, 1343, Concepción</p>
+                    <img class="img-fluid" src="{% static 'img/mapa.png' %}" alt="mapa"> 
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cart" id="cart" style="background-color: #f5f5f5; border-radius: 10px; padding: 20px;">
+        <div class="cart-header">
+            <button class="btn-close" id="closeCart" style="background-color: #e74c3c; color: white; border: none; border-radius: 50%; padding: 5px 10px; top: 10px; right: 10px;"></button>
+        </div>
+        <h2 class="font-weight-bold" style="color: #333;">Tu Carrito de Compras</h2>
+        <ul class="cart-items" id="cartItems">
+        </ul>
+        <div class="cart-footer" style="margin-top: 20px;">
+            <p class="total-price">Total: 0$</p>
+            <button class="btn btn-danger" id="clearCart">Vaciar carrito</button>
+            <a href="comprar.html" class="btn btn-success">Comprar</a>
+        </div>
+        <div>
+            <img src="{% static 'img/banner.jpg' %}" class="rounded shadow" style="margin-top: 20px;" width="270px" alt="">
+        </div>
+    </div>
+    <footer class="bg-dark text-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="mx-5 p-4 bg-dark text-white rounded">
+                    <a href={% url 'index' %}>
+                        <img src="img/logo.png" alt="Logo">
+                    </a>
+                    <div class="d-flex flex-column align-items-end">
+                        <a class="nav-link" href={% url 'index' %}>Inicio</a>
+                        <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
+                        <a class="nav-link" href="preguntas.html">Preguntas Frecuentes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
+{% endblock contenido %}
