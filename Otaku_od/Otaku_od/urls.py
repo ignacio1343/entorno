@@ -21,4 +21,8 @@ from Aplicacion import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('t_productos/', views.t_productos, name='t_productos'),
+    path('contacto/', views.contacto, name='contacto'),
+    path('v_asuka/', views.v_asuka, name='v_asuka'),
+    path('v_goku/', views.v_goku, name='v_goku'),
 ]
