@@ -21,6 +21,10 @@ from Aplicacion import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('preguntas/', views.preguntas, name='preguntas'),
+    path('v_itachi/', views.v_itachi, name='v_itachi'),
+    path('v_zenitsu/', views.v_zenitsu, name='v_zenitsu'),
+    path('pedidos_user/', views.pedidos_user, name='pedidos_user'),
     path('t_productos/', views.t_productos, name='t_productos'),
     path('contacto/', views.contacto, name='contacto'),
     path('v_asuka/', views.v_asuka, name='v_asuka'),
