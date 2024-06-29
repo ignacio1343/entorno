@@ -16,3 +16,15 @@ def v_zenitsu(request):
 
 def pedidos_user(request):
     return render(request, 'Otaku_ody/pedidos_user.html')
+=======
+def t_productos(request):
+    return render(request, 'Otaku_ody/t_productos.html')
+
+def contacto(request):
+    return render(request, 'Otaku_ody/contacto.html')
+
+def v_asuka(request):
+    return render(request, 'Otaku_ody/v_asuka.html')
+
+def v_goku(request):
+    return render(request, 'Otaku_ody/v_goku.html')

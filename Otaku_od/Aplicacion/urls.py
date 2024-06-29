@@ -26,6 +26,10 @@ urlpatterns = [
     path('v_itachi/', views.v_itachi, name='v_itachi'),
     path('v_zenitsu/', views.v_zenitsu, name='v_zenitsu'),
     path('pedidos_user/', views.pedidos_user, name='pedidos_user'),
+    path('t_productos/', views.t_productos, name='t_productos'),
+    path('contacto/', views.contacto, name='contacto'),
+    path('v_asuka/', views.v_asuka, name='v_asuka'),
+    path('v_goku/', views.v_goku, name='v_goku'),
 ]
 
 if settings.DEBUG:
