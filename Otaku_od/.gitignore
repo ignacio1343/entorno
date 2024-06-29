@@ -1,0 +1,4 @@
+appcrud/__pycache__/
+sitio/__pycache__/
+appcrud/migrations/__pycache__/
+db.sqlite3
