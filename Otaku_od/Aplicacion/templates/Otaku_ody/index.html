@@ -45,12 +45,24 @@
                             <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.html">Cuenta</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="pedidos_user.html">Mis pedidos</a>
                         </li>
                     </ul>
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <li class="nav-item">
+                            <button type="submit" class="btn btn-link nav-link">Cerrar sesión</button>
+                        </li>
+                    </form>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="nav-link">Iniciar sesión</a>
+                    </li>
+                {% endif %}
+                    <li class="nav-item">
+                        <a  href="">{{user.username}}</a>
+                    </li>
                     <a href="#" id="toggleCart">
                         <img src="{% static 'img/carrito_blanco.png' %}" alt="Icono de carrito" style="width: 30px;">
                     </a>
