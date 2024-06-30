@@ -18,12 +18,6 @@ def index(request):
 def preguntas(request):
     return render(request, 'Otaku_ody/preguntas.html')
 
-def v_itachi(request):
-    return render(request, 'Otaku_ody/v_itachi.html')
-
-def v_zenitsu(request):
-    return render(request, 'Otaku_ody/v_zenitsu.html')
-
 def pedidos_user(request):
     return render(request, 'Otaku_ody/pedidos_user.html')
 
@@ -36,12 +30,6 @@ def t_productos(request):
 
 def contacto(request):
     return render(request, 'Otaku_ody/contacto.html')
-
-def v_asuka(request):
-    return render(request, 'Otaku_ody/v_asuka.html')
-
-def v_goku(request):
-    return render(request, 'Otaku_ody/v_goku.html')
 
 def administracion(request):
     return render(request, 'Otaku_ody/administracion.html')
@@ -141,3 +129,9 @@ def test(request):
         'productos': productos
     }
     return render(request, 'Otaku_ody/test.html', data)
+
+def login(request):
+    return render(request, 'Otaku_ody/login.html')
+
+def carrito(request):
+    return render(request, 'Otaku_ody/carrito.html')
