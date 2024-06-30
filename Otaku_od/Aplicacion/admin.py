@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Region, Comuna, Persona, Producto, TipoProducto
+from .models import Comuna, Persona, Producto, TipoProducto, Pedido, PedidoProducto
 
 # Register your models here.
 
@@ -10,8 +10,9 @@ class ProductoAdmin(admin.ModelAdmin):
     list_filter = ["tipo", "valor"]
     list_per_page= 5
 
-admin.site.register(Region)
 admin.site.register(Comuna)
 admin.site.register(Persona)
 admin.site.register(Producto, ProductoAdmin)
 admin.site.register(TipoProducto)
+admin.site.register(Pedido)
+admin.site.register(PedidoProducto)

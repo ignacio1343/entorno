@@ -17,6 +17,13 @@ REGIONES_CHILE = {
     ("XVI", "Ñuble")
 }
 
+ESTADO = {
+    ("Entregado", "Entregado"),
+    ("En circulacion", "En circulacion"),
+    ("Cancelado", "Cancelado"),
+    ("Pagado", "Pagado"),
+}
+
 COMUNAS_TARAPACA = {
     ("IQUIQUE", "Iquique"),
     ("ALTO_HOSPICIO", "Alto Hospicio"),
