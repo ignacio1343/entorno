@@ -1,105 +1,128 @@
-{% extends "Otaku_ody/base.html" %}
 {% load static %}
 {% block contenido %}
 
 <!DOCTYPE html>
 <html lang="es">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otaku Odyssey</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_index.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/ignacuo_js.js' %}"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+    </style>
+</head>
+
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed">
+            <div class="container-fluid">
+                <a class="navbar-brand" href={% url 'index' %}>
+                    <img src="{% static 'img/logo.png' %}" alt="logo" style="width:100px;" class="rounded-pill">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'index' %}>Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 't_productos' %}>Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.html">Cuenta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pedidos_user.html">Mis pedidos</a>
+                        </li>
+                    </ul>
+                    <a href="#" id="toggleCart">
+                        <img src="{% static 'img/carrito_blanco.png' %}" alt="Icono de carrito" style="width: 30px;">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% load humanize  %}
     <main>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12">
-                    <div class="mx-5 mt-4 mb-4 p-5 bg-dark text-white rounded">
+                    <div class="mx-lg-5 p-5 mb-4 bg-dark text-white rounded-bottom">
                         <h1 class="text-center">Productos</h1>
-                        <p class="text-center">Acá podrás encontrar todos nuestros productos disponibles!!</p>
+                        <p class="text-center">Acá puedes ver algunos de nuestros productos!</p>
                         <div class="row row-cols-1 row-cols-md-4 g-4">
+                            {% for p in productos %}
                             <div class="col">
-                                <div class="card h-100 my-card">
-                                    <img class="card-img-top" src="{% static 'img/asuka.png' %}" alt="Card image" style="width:100%">
+                                <div class="card h-100">
+                                    {% if p.imagen %}
+                                    <div class="card-img-top-wrapper">
+                                        <img class="card-img-top" src="{{p.imagen.url}}" alt="Card image">
+                                    </div>
+                                    {% endif %}
                                     <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">Asuka "Evangelion"</h4>
-                                        <p class="card-text">Precio: 15.990$</p>
+                                        <h4 class="card-title">{{p.nombre}}</h4>
+                                        <p class="card-text">{{p.valor | intcomma}}</p>
                                         <div class="mt-auto">
                                             <button class="btn btn-primary mb-2 add-to-cart" data-name="Asuka" data-price="15990">Agregar al carrito</button>
-                                            <a href={% url 'v_asuka' %} class="btn btn-success">Ver producto</a>
+                                            <a href="v_asuka.html" class="btn btn-success">Ver producto</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="{% static 'img/itachi.png' %}" alt="Card image" style="width:100%">
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">Itachi Uchiha "Naruto"</h4>
-                                        <p class="card-text">Precio: 24.990$</p>
-                                        <div class="mt-auto">
-                                            <button class="btn btn-primary mb-2 add-to-cart" data-name="Itachi Uchiha" data-price="24990">Agregar al carrito</button>
-                                            <a href="v_itachi.html" class="btn btn-success">Ver producto</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="{% static 'img/zenitsu.png' %}" alt="Card image" style="width:100%">
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">Zenitsu "Demon Slayer"</h4>
-                                        <p class="card-text">Precio: 12.990$</p>
-                                        <div class="mt-auto">
-                                            <button class="btn btn-primary mb-2 add-to-cart" data-name="Zenitsu" data-price="12990">Agregar al carrito</button>
-                                            <a href="v_zenitsu.html" class="btn btn-success">Ver producto</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="{% static 'img/goku.jpg' %}" alt="Card image" style="width:100%">
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">Goku Ultra Instinto "Dragon Ball"</h4>
-                                        <p class="card-text">Precio: 17.990$</p>
-                                        <div class="mt-auto">
-                                            <button class="btn btn-primary mb-2 add-to-cart" data-name="Goku Ultra Instinto" data-price="17990">Agregar al carrito</button>
-                                            <a href={% url 'v_goku' %} class="btn btn-success">Ver producto</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="{% static 'img/asuka.png' %}" alt="Card image" style="width:100%">
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">Asuka "Evangelion"</h4>
-                                        <p class="card-text">Precio: 15.990$</p>
-                                        <div class="mt-auto">
-                                            <button class="btn btn-primary mb-2 add-to-cart" data-name="Asuka" data-price="15990">Agregar al carrito</button>
-                                            <a href={% url 'v_asuka' %} class="btn btn-success">Ver producto</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="{% static 'img/asuka.png' %}" alt="Card image" style="width:100%">
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">Asuka "Evangelion"</h4>
-                                        <p class="card-text">Precio: 15.990$</p>
-                                        <div class="mt-auto">
-                                            <button class="btn btn-primary mb-2 add-to-cart" data-name="Asuka" data-price="15990">Agregar al carrito</button>
-                                            <a href={% url 'v_asuka' %} class="btn btn-success">Ver producto</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!--Aqui agregas mas productos-->
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    
+    <style>
+    .card-img-top-wrapper {
+        width: 100%;
+        height: 320px; /* Altura fija para todas las imágenes */
+        overflow: hidden; /* Oculta cualquier parte de la imagen que sobresalga */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .card-img-top {
+        width: auto;
+        height: 100%;
+    }
+    </style>
+    <div class="cart" id="cart" style="background-color: #f5f5f5; border-radius: 10px; padding: 20px;">
+        <div class="cart-header">
+            <button class="btn-close" id="closeCart" style="background-color: #e74c3c; color: white; border: none; border-radius: 50%; padding: 5px 10px; top: 10px; right: 10px;"></button>
+        </div>
+        <h2 class="font-weight-bold" style="color: #333;">Tu Carrito de Compras</h2>
+        <ul class="cart-items" id="cartItems">
+        </ul>
+        <div class="cart-footer" style="margin-top: 20px;">
+            <p class="total-price">Total: 0$</p>
+            <button class="btn btn-danger" id="clearCart">Vaciar carrito</button>
+            <a href="comprar.html" class="btn btn-success">Comprar</a>
+        </div>
+        <div>
+            <img src="{% static 'img/banner.jpg' %}" class="rounded shadow" style="margin-top: 20px;" width="270px" alt="">
+        </div>
+    </div>
     <footer class="bg-dark text-white">
         <div class="container">
             <div class="row justify-content-center">
@@ -111,12 +134,13 @@
                     <div class="d-flex flex-column align-items-end">
                         <a class="nav-link" href={% url 'index' %}>Inicio</a>
                         <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
-                        <a class="nav-link" href={% url 'preguntas' %}>Preguntas Frecuentes</a>
+                        <a class="nav-link" href="preguntas.html">Preguntas Frecuentes</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    {% endblock contenido %}
 </body>
+
 </html>
+{% endblock contenido %}

@@ -1,0 +1,229 @@
+{% load static %}
+{% block contenido %}
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otaku Odyssey - Admin</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
+</head>
+
+<body class="body">
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <a class="navbar-brand" href={% url 'administracion' %}>
+                    <img src="{% static 'img/logo.png' %}" alt="logo" style="width:100px;" class="img-fluid rounded-pill">
+                </a>  
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="{% url 'usuarios' %}" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="pedidos.html" class="sidebar-link">
+                        <i class="lni lni-layers"></i>
+                        <span>Pedidos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'listaproducto' %}" class="sidebar-link">
+                        <i class="lni lni-cart"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="" class="sidebar-link">
+                        <i class="lni lni-bar-chart"></i>
+                        <span>Estadisticas</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="index.html" class="sidebar-link">
+                    <i class="lni lni-exit"></i>
+                    <span>Volver a la pagina</span>
+                </a>
+            </div>
+        </aside>
+        <div class="main">
+            <nav class="navbar navbar-expand px-4 py-3">
+                <form action="" class="d-none d-sm-inline-block">
+                    <div class="input-group input-group-navbar">
+                        <input type="text" class="form-control border-0 rounded-0" placeholder="Buscar....">
+                        <button class="btn border-0 rounded-0" type="button">
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a href="" class="nav-icon pe-md-0" data-bs-toggle="dropdown">
+                                <img src="img/empresario.jpg" class="avatar img-fluid" alt="">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end rounded">
+                                <a href="" class="dropdown-item">
+                                    <i class="lni lni-timer"></i>
+                                    <span>Estadisticas</span>
+                                </a>
+                                <a href="" class="dropdown-item">
+                                    <i class="lni lni-cog"></i>
+                                    <span>Configuracion</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="" class="dropdown-item">
+                                    <i class="lni lni-question-circle"></i>
+                                    <span>Analytics</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main class="content px-3 py-4">
+                <div class="container-fluid">
+                    <div class="mb-3">
+                        <h3 class="fw-bold fs-4 mb-3">Panel de administrador</h3>
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="card h-100"> <!-- Añadimos la clase h-100 para hacer que el div tenga la misma altura que los otros -->
+                                    <img class="card img-fluid" src="img/empresario.png" alt="Card image" style="max-width: 100%; height: auto;">
+                                    <div class="card-body d-flex flex-column justify-content-between"> <!-- Cambiamos la disposición del contenido de la tarjeta -->
+                                        <div>
+                                            <h4 class="card-title">Nicolas Liñan De Ariza Fernandez</h4>
+                                            <p class="card-text">Bienvenido nuevamente al panel de administrador.</p>
+                                        </div>
+                                        <a href="pedidos.html" class="btn btn-primary mt-auto">Revisar pedidos recientes</a> <!-- Alineamos el botón en la parte inferior -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-4">
+                                <div class="card border-0">
+                                    <div class="card-body py-4">
+                                        <h5 class="mb-2 fw-bold">Ganancias del mes</h5>
+                                    </div>
+                                    <p class="mb-2 fw-bold">
+                                        $60.324.600
+                                    </p>
+                                    <div class="mb-0">
+                                        <span class="badge text-success me-2">
+                                            +20%
+                                        </span>
+                                        <span class="fw-bold">
+                                            Desde el ultimo mes
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="card border-0">
+                                        <div class="card-body py-4">
+                                            <h5 class="mb-2 fw-bold">Pedidos</h5>
+                                        </div>
+                                        <p class="mb-2 fw-bold">
+                                            <i class="lni lni-layers"></i>
+                                            110
+                                        </p>
+                                        <div class="mb-0">
+                                            <span class="badge text-success me-2">
+                                                +30%
+                                            </span>
+                                            <span class="fw-bold">
+                                                Desde el ultimo mes
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="card border-0">
+                                    <div class="card-body py-4">
+                                        <h5 class="mb-2 fw-bold">Productos vendidos totales</h5>
+                                    </div>
+                                    <p class="mb-2 fw-bold">
+                                        <i class="lni lni-cart"></i>
+                                        220
+                                    </p>
+                                    <div class="mb-0">
+                                        <span class="badge text-success me-2">
+                                            +6%
+                                        </span>
+                                        <span class="fw-bold">
+                                            Desde el ultimo mes
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <h3 class="fw-bold fs-4 my-3">Pedidos Entregados recientemente</h3>
+                                    <div class="col-12">
+                                        <table class="table table-stripped">
+                                            <thead>
+                                                <tr class="highlight">
+                                                    <th>ID Pedido</th>
+                                                    <th>Nombre</th>
+                                                    <th>Apellido</th>
+                                                    <th>Domicilio</th>
+                                                    <th>Producto</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Benjamin</td>
+                                                    <td>Bello</td>
+                                                    <td>Colo-Colo 1232, Calama</td>
+                                                    <td>Figura Madara Uchiha a escala</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Ignacio</td>
+                                                    <td>Bustos</td>
+                                                    <td>Caupolican 3201, Antofagasta</td>
+                                                    <td>Tomos de manga Chainsaw Man 1/2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Mario</td>
+                                                    <td>Zapata</td>
+                                                    <td>Lo Barnechea 2314, Santiago</td>
+                                                    <td>Figura Bakugo Katsuki</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Benjamin</td>
+                                                    <td>Fernandez</td>
+                                                    <td>Paicavi, Alto Hospicio</td>
+                                                    <td>Pines Demon Slayer</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <script src="static/js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+{% endblock contenido %}

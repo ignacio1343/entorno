@@ -1,0 +1,167 @@
+{% load static %}
+{% block contenido %}
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otaku Odyssey - Admin</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
+</head>
+
+<body class="body">
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <a class="navbar-brand" href={% url 'administracion' %}>
+                    <img src="{% static 'img/logo.png' %}" alt="logo" style="width:100px;" class="img-fluid rounded-pill">
+                </a>  
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="{% url 'usuarios' %}" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="pedidos.html" class="sidebar-link">
+                        <i class="lni lni-layers"></i>
+                        <span>Pedidos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'listaproducto' %}" class="sidebar-link">
+                        <i class="lni lni-cart"></i>
+                        <span>Productos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="estadisticas.html" class="sidebar-link">
+                        <i class="lni lni-bar-chart"></i>
+                        <span>Estadisticas</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="index.html" class="sidebar-link">
+                    <i class="lni lni-exit"></i>
+                    <span>Volver a la pagina</span>
+                </a>
+            </div>
+        </aside>
+        <div class="main">
+            <nav class="navbar navbar-expand px-4 py-3">
+                <form action="" class="d-none d-sm-inline-block">
+                    <div class="input-group input-group-navbar">
+                        <input type="text" class="form-control border-0 rounded-0" placeholder="Buscar....">
+                        <button class="btn border-0 rounded-0" type="button">
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a href="" class="nav-icon pe-md-0" data-bs-toggle="dropdown">
+                                <img src="img/empresario.jpg" class="avatar img-fluid" alt="">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end rounded">
+                                <a href="" class="dropdown-item">
+                                    <i class="lni lni-timer"></i>
+                                    <span>Estadisticas</span>
+                                </a>
+                                <a href="" class="dropdown-item">
+                                    <i class="lni lni-cog"></i>
+                                    <span>Configuracion</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="" class="dropdown-item">
+                                    <i class="lni lni-question-circle"></i>
+                                    <span>Analytics</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            {% load humanize %}
+            <main class="content px-3 py-4">
+                <div class="container-fluid">
+                    <div class="container-fluid mt-5">
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="container">
+                                    <h1>Tabla de Productos</h1>
+                                    <div id="mensaje-error" class="alert alert-danger" style="display: none;"></div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>ID de Producto</th>
+                                                    <th>Nombre</th>
+                                                    <th>Tipo</th>
+                                                    <th>Stock</th>
+                                                    <th>Valor</th>
+                                                    <th>Imagen</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tabla-productos">
+                                                {% for p in productos %}
+                                                <tr>
+                                                    <td>{{ p.id }}</td>
+                                                    <td>{{ p.nombre }}</td>
+                                                    <td>{{ p.tipo }}</td>
+                                                    <td>{{ p.stock }}</td>
+                                                    <td>{{ p.valor }}</td>
+                                                    <td>
+                                                        {% if p.imagen %}
+                                                            <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}" style="width: 50px; height: auto;">
+                                                        {% else %}
+                                                            No Image
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <form method="get" action="{% url 'modificarproducto' p.id %}">
+                                                            <button type="submit" class="btn btn-warning">Editar</button>
+                                                        </form>
+                                                        <form method="get" action="{% url 'eliminarproducto' p.id %}">
+                                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <form method="get" action="{% url 'agregarproducto' %}">
+                                        <button type="submit" class="btn btn-primary" id="agregar-producto">Agregar Producto</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/producto.js"></script>
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>
+
+{% endblock contenido %}
