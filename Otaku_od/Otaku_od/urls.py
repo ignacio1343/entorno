@@ -15,31 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from Aplicacion import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
-    path('preguntas/', views.preguntas, name='preguntas'),
-    path('pedidos_user/', views.pedidos_user, name='pedidos_user'),
-    path('t_productos/', views.t_productos, name='t_productos'),
-    path('contacto/', views.contacto, name='contacto'),
-    path('test/', views.test, name='test'),
-    path('administracion/', views.administracion, name='administracion'),
-    path('listaproducto/', views.listaproducto, name='listaproducto'),
-    path('agregarproducto/', views.agregarproducto, name='agregarproducto'),
-    path('modificarproducto/<id>/', views.modificarproducto, name='modificarproducto'),
-    path('eliminarproducto/<id>/', views.eliminarproducto, name='eliminarproducto'),
-    path('usuarios/', views.usuarios, name='usuarios'),
-    path('agregarusuario/', views.agregarusuario, name='agregarusuario'),
-    path('modificarusuario/<id>/', views.modificarusuario, name='modificarusuario'),
-    path('eliminarusuario/<id>/', views.eliminarusuario, name='eliminarusuario'),
-    path('login/', views.login, name='login'),
-    path('carrito/', views.carrito, name='carrito'),
+    path('', include('Aplicacion.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

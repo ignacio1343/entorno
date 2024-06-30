@@ -3,8 +3,9 @@ from .models import Producto
 from .forms import ProductoForm
 from .models import Persona
 from .forms import PersonaForm
-from .forms import ModificarPersonaForm
+from .forms import ModificarPersonaForm, CustomUserCreationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
@@ -122,6 +123,26 @@ def eliminarusuario(request, id):
     persona = get_object_or_404(Persona, rut=id)
     persona.delete()
     return redirect(to="usuarios")
+
+def login(request, user):
+    return render(request, 'registration/login.html')
+
+def registro(request):
+    data = {
+        'form' : CustomUserCreationForm()
+    }
+    
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            user=authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            login(request, user)
+            messages.success(request, "Te has registrado correctamente")
+            return redirect(to="index")
+        data["form"] = formulario
+    
+    return render(request, 'registration/registro.html', data)
 
 def test(request):
     productos = Producto.objects.all()

@@ -15,28 +15,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from Aplicacion import views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import preguntas, v_itachi, v_zenitsu, pedidos_user, t_productos, contacto, v_asuka,\
+    v_goku, administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios,\
+        agregarusuario,modificarusuario,eliminarusuario,registro
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('preguntas/', views.preguntas, name='preguntas'),
-    path('pedidos_user/', views.pedidos_user, name='pedidos_user'),
-    path('t_productos/', views.t_productos, name='t_productos'),
-    path('contacto/', views.contacto, name='contacto'),
-    path('administracion/', views.administracion, name='administracion'),
-    path('listaproducto/', views.listaproducto, name='listaproducto'),
-    path('agregarproducto/', views.agregarproducto, name='agregarproducto'),
-    path('modificarproducto/<id>/', views.modificarproducto, name='modificarproducto'),
-    path('eliminarproducto/<id>/', views.eliminarproducto, name='eliminarproducto'),
-    path('usuarios/', views.usuarios, name='usuarios'),
-    path('agregarusuario/', views.agregarusuario, name='agregarusuario'),
-    path('modificarusuario/<id>/', views.modificarusuario, name='modificarusuario'),
-    path('eliminarusuario/<id>/', views.eliminarusuario, name='eliminarusuario'),
-    path('login/', views.login, name='login'),
-        path('carrito/', views.carrito, name='carrito'),
+    path('preguntas/', preguntas, name='preguntas'),
+    path('pedidos_user/', pedidos_user, name='pedidos_user'),
+    path('t_productos/', t_productos, name='t_productos'),
+    path('contacto/', contacto, name='contacto'),
+    path('administracion/', administracion, name='administracion'),
+    path('listaproducto/', listaproducto, name='listaproducto'),
+    path('agregarproducto/', agregarproducto, name='agregarproducto'),
+    path('modificarproducto/<id>/', modificarproducto, name='modificarproducto'),
+    path('eliminarproducto/<id>/', eliminarproducto, name='eliminarproducto'),
+    path('usuarios/', usuarios, name='usuarios'),
+    path('agregarusuario/', agregarusuario, name='agregarusuario'),
+    path('modificarusuario/<id>/', modificarusuario, name='modificarusuario'),
+    path('eliminarusuario/<id>/', eliminarusuario, name='eliminarusuario'),
+    path('registro/', registro, name='registro'),
 ]
 
 if settings.DEBUG:
