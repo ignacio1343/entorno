@@ -1,4 +1,3 @@
-Aplicacion/__pycache__/
-Otaku_od/__pycache__/
-Otaku_od/migrations/__pycache__/
+__pycache__/
 db.sqlite3
+*.py[cod]
