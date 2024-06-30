@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+/*NO BORRAR, CONTIENE ESTILOS DE NAVBAR, INDEX, ETC*/
+
+/*NAVBAR*/
+.logo-effect {
+    transition: transform 0.3s ease; /* Suaviza la transición */
+}
+
+.logo-effect:hover {
+    transform: scale(1.4) rotate(6deg); /* Escala el logo al 120% y lo inclina 5 grados hacia la derecha */
+}
+
+.nav-item .nav-link {
+    font-size: 18px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Texto en negrita */
+    transition: transform 0.3s ease, color 0.3s ease; /* Suaviza la transición */
+}
+
+.nav-item .nav-link.hover-effect:hover {
+    transform: scale(1.1); /* Escala el elemento al 110% de su tamaño original */
+    color: rgb(255, 115, 0) !important; /* Cambia el color del texto a naranja */
+}
+
+/*NAVBAR*/
+.btn {
+    cursor: pointer;
+}
+
+body {
+    background-image: url("https://initiate.alphacoders.com/images/131/cropped-3840-2160-1319293.jpeg?3759");
+    background-size: cover; /* Estira la imagen para cubrir todo el fondo */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen */
+    background-position: center; /* Centra la imagen en el fondo */
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.product-table th, .product-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.product-table th {
+    background-color: #313030;
+}
+.product-table img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+/*carrusel*/
+.carousel-container {
+    margin-top: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    color: white;
+    text-align: center;
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+    margin: 0;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+.carousel-item img {
+    border-radius: 10px;
+    width: 600px;
+    height: 700px;
+    object-fit: cover;
+}
+/*Carrusel*/
+
+/*Tarjetas de productos*/
+.card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra al hacer hover */
+    transform: translateY(-5px); /* Efecto de elevación */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Transiciones suaves */
+}
+
+.clickable-img {
+    margin-right: 15px;
+}
+
+.clickable-img img:hover {
+    opacity: 0.7;
+}
+/*Tarjetas de productos*/
+
+/*footer*/
+footer {
+    background-color: #343a40; /* Color de fondo oscuro */
+    color: white; /* Color de texto blanco */
+    padding: 20px 0; /* Espaciado interno */
+}
+
+footer a {
+    color: white; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado en los enlaces */
+    margin-bottom: 10px; /* Margen inferior entre enlaces */
+    transition: transform 0.3s ease; /* Transición suave de la transformación */
+}
+
+footer a:hover {
+    transform: scale(1.2); /* Aumenta la escala al 110% al pasar el cursor */
+    color: rgb(255, 115, 0); /* Color de los enlaces al pasar el cursor */
+}
+
+.footer img {
+    width: 100px; /* Tamaño del logo */
+    margin-right: 10px; /* Margen derecho del logo */
+}
+
+/*footer*/

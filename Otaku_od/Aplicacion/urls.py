@@ -26,13 +26,9 @@ from .views import preguntas, v_itachi, v_zenitsu, pedidos_user, t_productos, co
 urlpatterns = [
     path('', views.index, name='index'),
     path('preguntas/', preguntas, name='preguntas'),
-    path('v_itachi/', v_itachi, name='v_itachi'),
-    path('v_zenitsu/', v_zenitsu, name='v_zenitsu'),
     path('pedidos_user/', pedidos_user, name='pedidos_user'),
     path('t_productos/', t_productos, name='t_productos'),
     path('contacto/', contacto, name='contacto'),
-    path('v_asuka/', v_asuka, name='v_asuka'),
-    path('v_goku/', v_goku, name='v_goku'),
     path('administracion/', administracion, name='administracion'),
     path('listaproducto/', listaproducto, name='listaproducto'),
     path('agregarproducto/', agregarproducto, name='agregarproducto'),

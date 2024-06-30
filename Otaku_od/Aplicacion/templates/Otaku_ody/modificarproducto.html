@@ -102,17 +102,14 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form | crispy }}
-
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary" >Editar Producto</button>
                         <button type="submit" class="btn btn-secondary">Volver atras</button>
                     </div>
                 </form>
                 {{mensaje}}  
-
             </div>
         </div>
-
     </div>
 </div>
             
