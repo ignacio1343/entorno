@@ -32,6 +32,11 @@ urlpatterns = [
     path('v_asuka/', views.v_asuka, name='v_asuka'),
     path('v_goku/', views.v_goku, name='v_goku'),
     path('test/', views.test, name='test'),
+    path('administracion/', views.administracion, name='administracion'),
+    path('listaproducto/', views.listaproducto, name='listaproducto'),
+    path('agregarproducto/', views.agregarproducto, name='agregarproducto'),
+    path('modificarproducto/<id>/', views.modificarproducto, name='modificarproducto'),
+    path('eliminarproducto/<id>/', views.eliminarproducto, name='eliminarproducto'),
 ]
 
 if settings.DEBUG:

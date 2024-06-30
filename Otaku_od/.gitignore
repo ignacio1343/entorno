@@ -1,4 +1,4 @@
-appcrud/__pycache__/
-sitio/__pycache__/
-appcrud/migrations/__pycache__/
+Aplicacion/pycache/
+Otakuod/pycache/
+Otakuod/migrations/__pycache/
 db.sqlite3

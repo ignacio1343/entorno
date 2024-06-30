@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'Otaku_od',
     'Aplicacion',
     'crispy_forms',
     'crispy_bootstrap5',
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 X_FRAME_OPTIONS = "SAMEORIGIN"
 SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
