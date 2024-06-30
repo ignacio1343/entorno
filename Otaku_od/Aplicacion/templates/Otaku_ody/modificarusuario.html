@@ -97,14 +97,14 @@
     <div class="col-12 col-md-6 offset-md-3">
         <div class="card">
             <div class="card-body">
-                <h2>Modificar Producto</h2>
+                <h2>Modificar Usuario</h2>
                 <hr>
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form | crispy }}
 
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary" >Editar Producto</button>
+                        <button type="submit" class="btn btn-primary" >Editar Usuario</button>
                         <button type="submit" class="btn btn-secondary">Volver atras</button>
                     </div>
                 </form>

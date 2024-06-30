@@ -15,7 +15,7 @@ class Comuna(models.Model):
     region = models.ForeignKey(Region, on_delete=models.PROTECT,null=False)
 
     def __str__(self):
-        return self.nombre
+        return f"Comuna:{self.nombre} Region: {self.region}"
 
 class Persona(models.Model):
     rut= models.CharField(max_length=10,primary_key=True, null=False, error_messages='Coloca algo valido')
@@ -26,7 +26,7 @@ class Persona(models.Model):
 
     
     def __str__(self):
-        return self.rut, self.nombre
+        return f"RUT:{self.rut} NOMBRE: {self.nombre} {self.apellido}"
 
 class TipoProducto(models.Model):
     nombre= models.CharField(max_length=50,null=False, error_messages='Coloca algo valido')

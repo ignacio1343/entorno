@@ -35,6 +35,10 @@ urlpatterns = [
     path('agregarproducto/', views.agregarproducto, name='agregarproducto'),
     path('modificarproducto/<id>/', views.modificarproducto, name='modificarproducto'),
     path('eliminarproducto/<id>/', views.eliminarproducto, name='eliminarproducto'),
+    path('usuarios/', views.usuarios, name='usuarios'),
+    path('agregarusuario/', views.agregarusuario, name='agregarusuario'),
+    path('modificarusuario/<id>/', views.modificarusuario, name='modificarusuario'),
+    path('eliminarusuario/<id>/', views.eliminarusuario, name='eliminarusuario'),
 ]
 
 if settings.DEBUG:
