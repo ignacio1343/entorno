@@ -1,3 +1,4 @@
+{% extends "Otaku_ody/base.html" %}
 {% load static %}
 {% block contenido %}
 
@@ -16,37 +17,6 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">
-                    <img src="{% static 'img/logo.png' %}" alt="logo" style="width:100px;" class="rounded-pill">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href={% url 'index' %}>Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href={% url 't_productos' %}>Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.html">Cuenta</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href={% url 'pedidos_user' %}>Mis pedidos</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
