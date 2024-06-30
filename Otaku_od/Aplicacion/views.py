@@ -16,7 +16,7 @@ def v_zenitsu(request):
 
 def pedidos_user(request):
     return render(request, 'Otaku_ody/pedidos_user.html')
-=======
+
 def t_productos(request):
     return render(request, 'Otaku_ody/t_productos.html')
 

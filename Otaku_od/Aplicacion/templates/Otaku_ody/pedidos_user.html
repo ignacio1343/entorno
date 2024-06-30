@@ -1,0 +1,75 @@
+{% extends "Otaku_ody/base.html" %}
+{% load static %}
+{% block contenido %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<body>
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="mx-5 mt-4 mb-4 p-4 bg-dark text-white rounded">
+                        <h1 class="text-center mt-5">Productos Comprados</h1>
+                        <table class="product-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del Producto</th>
+                                    <th>Precio</th>
+                                    <th>Imagen</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Goku Ultra Instinto "Dragon Ball"</td>
+                                    <td>$17.990</td>
+                                    <td><img src={% static 'img/goku.jpg' %} alt="Producto 1"></td>
+                                    <td>En el carrito</td>
+                                </tr>
+                                <tr>
+                                    <td>Asuka "Evangelion"</td>
+                                    <td>$15.990</td>
+                                    <td><img src={% static 'img/asuka.png' %} alt="Producto 2"></td>
+                                    <td>En transito</td>
+                                </tr>
+                                <tr>
+                                    <td>Zenitsu "Demon Slayer"</td>
+                                    <td>$12.990</td>
+                                    <td><img src={% static 'img/zenitsu.png' %} alt="Producto 3"></td>
+                                    <td>Cancelado</td>
+                                </tr>
+                                <tr>
+                                    <td>Itachi Uchiha "Naruto"</td>
+                                    <td>$24.990</td>
+                                    <td><img src={% static 'img/itachi.png' %} alt="Producto 4"></td>
+                                    <td>Recibido</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-dark text-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="mx-5 p-4 bg-dark text-white rounded">
+                    <a href={% url 'index' %}>
+                        <img src={% static 'img/logo.png' %} alt="Logo">
+                    </a>
+                    <div class="d-flex flex-column align-items-end">
+                        <a class="nav-link" href={% url 'index' %}>Inicio</a>
+                        <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
+                        <a class="nav-link" href={% url 'preguntas' %}>Preguntas Frecuentes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+{% endblock contenido %}

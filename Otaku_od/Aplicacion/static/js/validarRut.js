@@ -29,7 +29,6 @@ function checkRut(rut) {
         
         // Consolidar Múltiplo dentro del rango [2,7]
         if(multiplo < 7) { multiplo = multiplo + 1; } else { multiplo = 2; }
-  
     }
     
     // Calcular Dígito Verificador en base al Módulo 11
