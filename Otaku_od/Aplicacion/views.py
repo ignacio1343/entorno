@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .forms import ProductoForm
 from .models import Persona
+from .models import PedidoProducto
 from .forms import PersonaForm
 from .forms import ModificarPersonaForm, CustomUserCreationForm
 from django.contrib import messages
@@ -152,8 +153,18 @@ def test(request):
     }
     return render(request, 'Otaku_ody/test.html', data)
 
-def login(request):
-    return render(request, 'Otaku_ody/login.html')
-
 def carrito(request):
     return render(request, 'Otaku_ody/carrito.html')
+
+def estadisticas(request):
+    return render(request, 'Otaku_ody/estadisticas.html')
+
+def pedidos(request):
+    return render(request, 'Otaku_ody/pedidos.html')
+    
+def listapedido(request):
+    pedidos = PedidoProducto.objects.all()
+    data = {
+        'pedidos': pedidos
+    }
+    return render(request, 'Otaku_ody/pedidos.html', data)

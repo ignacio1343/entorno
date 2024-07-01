@@ -8,21 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Otaku Odyssey{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_nav_index.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>}
-</head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+</head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'index' %}">
-                    <img src="{% static 'img/logo.png' %}" alt="logo" style="width:100px;"
-                        class="rounded-pill logo-effect">
+                    <img src="{% static 'img/logo.png' %}" alt="logo" style="width:100px;" class="rounded-pill logo-effect">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
@@ -40,21 +38,26 @@
                             <a class="nav-link hover-effect" href="{% url 'pedidos_user' %}">Mis pedidos</a>
                         </li>
                         {% if user.is_authenticated %}
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <li class="nav-item">
-                                <button type="submit" class="btn btn-link nav-link hover-effect">Cerrar sesión</button>
-                            </li>
-                        </form>
-                        {% else %}
-                        {% endif %}
+    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
                         <li class="nav-item">
-                            <a href="">{{user.username}}</a>
+                            <button type="submit" class="btn btn-link nav-link">Cerrar sesión</button>
                         </li>
+                    </form>
+                        {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="nav-link">Iniciar sesión</a>
+                    </li>
+                        {% endif %}
+                    <li class="nav-item">
+                        <a  href="">{{user.username}}</a>
+                    </li>
                     </ul>
-                    <a href="{% url 'carrito' %}" class="nav-item hover-effect" style="margin-left: 70px;">
-                        <!-- CARRITOOOOO HAY Q CAMBIARLOOO AAAAAAAA -->
+                    <a href="{% url 'carrito' %}" class="nav-item hover-effect" style="margin-left: 70px;"> <!-- CARRITOOOOO HAY Q CAMBIARLOOO AAAAAAAA -->
                         <img src="{% static 'img/carrito_blanco.png' %}" alt="Icono de carrito" style="width: 30px;">
+                    </a>
+                    <a href="{% url 'login' %}" class="nav-item hover-effect" style="margin-left: 25px;">
+                        <img src="{% static 'img/icono_user.png' %}" alt="icono_user" class="icon_navbar" style="width: 30px;">
                     </a>
                 </div>
             </div>
@@ -66,5 +69,4 @@
 
     {% endblock contenido %}
 </body>
-
 </html>
