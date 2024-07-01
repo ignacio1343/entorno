@@ -5,7 +5,8 @@ from .models import Persona
 from .forms import PersonaForm
 from .forms import ModificarPersonaForm, CustomUserCreationForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
 
 # Create your views here.
 
