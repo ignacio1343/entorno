@@ -19,12 +19,14 @@ from django.urls import path, include
 from Aplicacion import views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import preguntas, pedidos_user, t_productos, contacto, administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios,\
-        agregarusuario,modificarusuario,eliminarusuario,registro, carrito
+from .views import preguntas, pedidos_user, t_productos, contacto,pedidos,\
+     administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios, listapedido,\
+        agregarusuario,modificarusuario,eliminarusuario,registro, carrito, estadisticas, pedidos
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('preguntas/', preguntas, name='preguntas'),
+    path('carrito/', carrito, name='carrito'),
     path('pedidos_user/', pedidos_user, name='pedidos_user'),
     path('t_productos/', t_productos, name='t_productos'),
     path('contacto/', contacto, name='contacto'),
@@ -38,7 +40,9 @@ urlpatterns = [
     path('modificarusuario/<id>/', modificarusuario, name='modificarusuario'),
     path('eliminarusuario/<id>/', eliminarusuario, name='eliminarusuario'),
     path('registro/', registro, name='registro'),
-    path('carrito/', carrito, name='carrito'),
+    path('estadisticas/', estadisticas, name='estadisticas'),
+    path('pedidos/', pedidos, name='pedidos'),
+    path('listapedido/', listapedido, name='listapedido'),
 ]
 
 if settings.DEBUG:
