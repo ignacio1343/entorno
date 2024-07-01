@@ -19,9 +19,8 @@ from django.urls import path, include
 from Aplicacion import views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import preguntas, v_itachi, v_zenitsu, pedidos_user, t_productos, contacto, v_asuka,\
-    v_goku, administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios,\
-        agregarusuario,modificarusuario,eliminarusuario,registro
+from .views import preguntas, pedidos_user, t_productos, contacto, administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios,\
+        agregarusuario,modificarusuario,eliminarusuario,registro, carrito
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -39,6 +38,7 @@ urlpatterns = [
     path('modificarusuario/<id>/', modificarusuario, name='modificarusuario'),
     path('eliminarusuario/<id>/', eliminarusuario, name='eliminarusuario'),
     path('registro/', registro, name='registro'),
+    path('carrito/', carrito, name='carrito'),
 ]
 
 if settings.DEBUG:
