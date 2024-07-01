@@ -43,26 +43,19 @@
                 <div class="text-end">
                     <img src="{% static 'img/logo.png' %}" width="48" alt="">
                 </div>
-
                 <h2 class="fw-bold text-center py-5">Bienvenido</h2>
-
                 <form action="" method="post" >
                     {% csrf_token %}
                     {{ form | crispy }}
-
-
                     <button type="submit" class="btn btn-primary" >Ingresar</button>
                     <a class="nav-link" href={% url 'administracion' %}>Entrar a Administracion</a> 
                     <a class="nav-link" href={% url 'registro' %}>Registrarse</a> 
                     <a class="nav-link" href={% url 'index' %}>Volver atras</a>
                 </form>
-
                 </div>
-
             </div>
         </div>
     </div>
-
     <script src="js/bootstrap.bundle.js"></script>
 </body>
 
