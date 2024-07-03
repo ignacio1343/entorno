@@ -1,7 +1,6 @@
 {% extends "Otaku_ody/adminnav.html" %}
 {% load static %}
 {% block contenido %}
-
 {% load crispy_forms_tags %}
 
 <!DOCTYPE html>
@@ -24,20 +23,22 @@
     <div class="col-12 col-md-6 offset-md-3">
         <div class="card">
             <div class="card-body">
-                <h2>Modificar Producto</h2>
+                <h2>Agregar Tipo de producto</h2>
                 <hr>
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form | crispy }}
+
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary" >Editar Producto</button>
-                        
-                        <a href="{% url 'listaproducto'%}" class="btn btn-secondary">Volver atras</a>
+                        <button type="submit" class="btn btn-primary" >Agregar Tipo de Producto</button>
+                        <a href="{% url 'tipoproducto'%}" class="btn btn-secondary">Volver atras</a>
                     </div>
                 </form>
                 {{mensaje}}  
+
             </div>
         </div>
+
     </div>
 </div>
             
