@@ -42,7 +42,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="tabla-productos">
-                                                {% for p in productos %}
+                                                {% for p in entity %}
                                                 <tr>
                                                     <td>{{ p.id }}</td>
                                                     <td>{{ p.nombre }}</td>
@@ -51,27 +51,35 @@
                                                     <td>{{ p.valor }}</td>
                                                     <td>
                                                         {% if p.imagen %}
-                                                            <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}" style="width: 50px; height: auto;">
+                                                        <img src="{{ p.imagen.url }}" alt="{{ p.nombre }}" style="display: block; margin: 0 auto; width: 100px; height: auto;">
                                                         {% else %}
                                                             No Image
                                                         {% endif %}
                                                     </td>
                                                     <td>
-                                                        <form method="get" action="{% url 'modificarproducto' p.id %}">
-                                                            <button type="submit" class="btn btn-warning">Editar</button>
-                                                        </form>
-                                                        <form method="get" action="{% url 'eliminarproducto' p.id %}">
-                                                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                                                        </form>
+                                                        <div class="btn-group">
+                                                            <a href="{% url 'modificarproducto' p.id %}" class="btn btn-info btn-sm">Editar</a>
+                                                            <a href="{% url 'eliminarproducto' p.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
-                                    <form method="get" action="{% url 'agregarproducto' %}">
-                                        <button type="submit" class="btn btn-primary" id="agregar-producto">Agregar Producto</button>
-                                    </form>
+                                    <div class="d-inline-block">
+                                        <form method="get" action="{% url 'agregarproducto' %}">
+                                            <button type="submit" class="btn btn-primary" id="agregar-producto">Agregar Producto</button>
+                                        </form>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <form method="get" action="{% url 'tipoproducto' %}">
+                                            <button type="submit" class="btn btn-primary" id="agregar-producto">Tipos de productos</button>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        {% include "Otaku_ody/paginator.html" %}
+                                    </div>
                                 </div>
                             </div>
                         </div>

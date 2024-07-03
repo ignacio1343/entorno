@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from .views import preguntas, pedidos_user, t_productos, contacto,pedidos,\
      administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios, listapedido,\
         agregarusuario,modificarusuario,eliminarusuario,registro, carrito, estadisticas, pedidos
+from .views import *
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -43,6 +44,10 @@ urlpatterns = [
     path('estadisticas/', estadisticas, name='estadisticas'),
     path('pedidos/', pedidos, name='pedidos'),
     path('listapedido/', listapedido, name='listapedido'),
+    path('agregartipoproducto/', agregartipoproducto, name='agregartipoproducto'),
+    path('modificartipoproducto/<id>/', modificartipoproducto, name='modificartipoproducto'),
+    path('eliminartipoproducto/<id>/', eliminartipoproducto, name='eliminartipoproducto'),
+    path('tipoproducto/', tipoproducto, name='tipoproducto'),
 ]
 
 if settings.DEBUG:

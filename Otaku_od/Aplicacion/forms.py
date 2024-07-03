@@ -1,7 +1,14 @@
 from django import forms
-from .models import Producto, Persona
+from .models import Producto
+from .models import TipoProducto
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+class TipoProductoForm(forms.ModelForm):
+    
+    class Meta:
+        model = TipoProducto
+        fields = '__all__'
 
 class ProductoForm(forms.ModelForm):
     
@@ -12,17 +19,11 @@ class ProductoForm(forms.ModelForm):
         fields = '__all__'
 
 
-class PersonaForm(forms.ModelForm):
-    
-    class Meta:
-        model = Persona
-        fields = '__all__'
-
 class ModificarPersonaForm(forms.ModelForm):
     
     class Meta:
-        model = Persona
-        fields = ['nombre','apellido','correo','comuna']
+        model = User
+        fields = ['username','first_name','last_name','email']
         
 class CustomUserCreationForm(UserCreationForm):
     
