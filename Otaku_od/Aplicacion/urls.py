@@ -31,7 +31,6 @@ router.register('producto', ProductoViewset)
 urlpatterns = [
     path('', views.index, name='index'),
     path('preguntas/', preguntas, name='preguntas'),
-    path('carrito/', carrito, name='carrito'),
     path('pedidos_user/', pedidos_user, name='pedidos_user'),
     path('t_productos/', t_productos, name='t_productos'),
     path('contacto/', contacto, name='contacto'),
@@ -53,6 +52,10 @@ urlpatterns = [
     path('eliminartipoproducto/<id>/', eliminartipoproducto, name='eliminartipoproducto'),
     path('tipoproducto/', tipoproducto, name='tipoproducto'),
     path('crearadmin/', crearadmin, name='crearadmin'),
+    path('carrito/', carrito, name='carrito'),
+    path('agregar-al-carrito/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
+    path('ver-carrito/', views.ver_carrito, name='ver_carrito'),
+    path('eliminar-del-carrito/<int:item_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('api/', include(router.urls)),
 ]
 
