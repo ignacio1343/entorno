@@ -23,6 +23,10 @@ from .views import preguntas, pedidos_user, t_productos, contacto,pedidos,\
      administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios, listapedido,\
         agregarusuario,modificarusuario,eliminarusuario,registro, carrito, estadisticas, pedidos
 from .views import *
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('producto', ProductoViewset)
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -48,6 +52,8 @@ urlpatterns = [
     path('modificartipoproducto/<id>/', modificartipoproducto, name='modificartipoproducto'),
     path('eliminartipoproducto/<id>/', eliminartipoproducto, name='eliminartipoproducto'),
     path('tipoproducto/', tipoproducto, name='tipoproducto'),
+    path('crearadmin/', crearadmin, name='crearadmin'),
+    path('api/', include(router.urls)),
 ]
 
 if settings.DEBUG:

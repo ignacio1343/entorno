@@ -10,7 +10,33 @@ from .models import *
 from .forms import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404 
+from rest_framework import viewsets
+from .serializers import ProductoSerializer
+from django.contrib.auth.decorators import login_required
+from functools import wraps
+from django.http import HttpResponseForbidden
 # Create your views here.
+
+class ProductoViewset(viewsets.ModelViewSet):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+    
+    def get_queryset(self):
+        productos = Producto.objects.all()
+        
+        nombre = self.request.GET.get('nombre')
+        if nombre:
+            productos = productos.filter(nombre__contains=nombre)
+        return productos
+    
+def admin_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_staff:
+            return redirect('index')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
 
 def index(request):
     productos = Producto.objects.all()
@@ -22,6 +48,7 @@ def index(request):
 def preguntas(request):
     return render(request, 'Otaku_ody/preguntas.html')
 
+@login_required
 def pedidos_user(request):
     return render(request, 'Otaku_ody/pedidos_user.html')
 
@@ -49,9 +76,10 @@ def t_productos(request):
 def contacto(request):
     return render(request, 'Otaku_ody/contacto.html')
 
+@admin_required
 def administracion(request):
     return render(request, 'Otaku_ody/administracion.html')
-
+@admin_required
 def listaproducto(request):
     productos = Producto.objects.all()
     paginator = Paginator(productos, 4)  # Crear un objeto Paginator con tus productos
@@ -72,7 +100,7 @@ def listaproducto(request):
         'paginator': paginator,
     }
     return render(request, 'Otaku_ody/listaproducto.html', data)
-
+@admin_required
 def agregarproducto(request):
     data = {
         'form': ProductoForm()
@@ -88,16 +116,16 @@ def agregarproducto(request):
             data["mensaje"] = "Rellena bien todos los campos"
     
     return render(request, 'Otaku_ody/agregarproducto.html', data)
-
+@admin_required
 def modificarproducto(request, id):
     producto = get_object_or_404(Producto, id=id)
     
     data = {
-        'form' : ProductoForm(instance=producto)
+        'form' : ModificarProductoForm(instance=producto)
     }
     
     if request.method == 'POST':
-        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
+        formulario = ModificarProductoForm(data=request.POST, instance=producto, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             messages.success(request,'Producto Modificado')
@@ -105,13 +133,13 @@ def modificarproducto(request, id):
         data["form"] = formulario
     
     return render(request, 'Otaku_ody/modificarproducto.html', data)
-
+@admin_required
 def eliminarproducto(request, id):
     producto = get_object_or_404(Producto, id=id)
     producto.delete()
     messages.warning(request, 'Producto Eliminado')
     return redirect(to="listaproducto")
-
+@admin_required
 def usuarios(request):
     personas = User.objects.all()
     paginator = Paginator(personas, 4)  # Crear un objeto Paginator con tus productos
@@ -132,7 +160,7 @@ def usuarios(request):
         'paginator': paginator,
     }
     return render(request, 'Otaku_ody/usuarios.html', data)
-
+@admin_required
 def agregarusuario(request):
     data = {
         'form': CustomUserCreationForm()
@@ -148,7 +176,7 @@ def agregarusuario(request):
             data["mensaje"] = "Rellena bien todos los campos"
     
     return render(request, 'Otaku_ody/agregarusuario.html', data)
-
+@admin_required
 def modificarusuario(request, id):
     persona = get_object_or_404(User, id=id)
     
@@ -165,20 +193,20 @@ def modificarusuario(request, id):
         data["form"] = formulario
     
     return render(request, 'Otaku_ody/modificarusuario.html', data)
-
+@admin_required
 def eliminarusuario(request, id):
     persona = get_object_or_404(User, id=id)
     persona.delete()
     messages.warning(request, 'Persona Eliminada')
     return redirect(to="usuarios")
-
+@admin_required
 def tipoproducto(request):
     productos = TipoProducto.objects.all()
     data = {
         'productos': productos
     }
     return render(request, 'Otaku_ody/tipoproducto.html', data)
-
+@admin_required
 def agregartipoproducto(request):
     data = {
         'form': TipoProductoForm()
@@ -194,7 +222,7 @@ def agregartipoproducto(request):
     
     return render(request, 'Otaku_ody/agregartipoproducto.html', data)
     
-
+@admin_required
 def modificartipoproducto(request, id):
     tipoproducto = get_object_or_404(TipoProducto, id=id)
     
@@ -211,7 +239,7 @@ def modificartipoproducto(request, id):
         data["form"] = formulario
     
     return render(request, 'Otaku_ody/modificartipoproducto.html', data)
-
+@admin_required
 def eliminartipoproducto(request, id):
     tipoproducto = get_object_or_404(TipoProducto, id=id)
     tipoproducto.delete()
@@ -238,6 +266,17 @@ def registro(request):
         data["form"] = formulario
     
     return render(request, 'registration/registro.html', data)
+
+@admin_required
+def crearadmin(request):
+    if request.method == 'POST':
+        form = AdminCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')  # Redirigir a la página que desees después de crear el administrador
+    else:
+        form = AdminCreationForm()
+    return render(request, 'Otaku_ody/crearadmin.html', {'form': form})
 
 def test(request):
     productos = Producto.objects.all()
