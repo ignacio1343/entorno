@@ -44,14 +44,14 @@
                         <li class="nav-item" style="margin-right: 20px;">
                             <a class="nav-link hover-effect" href="{% url 'pedidos_user' %}">Mis pedidos</a>
                         </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" style="text-align: center;">Hola!, {{user.username}}</a>
+                        </li>
                         {% else %}
                         <li class="nav-item" style="margin-right: 20px;">
                             <a href="{% url 'login' %}" class="nav-link hover-effect">Iniciar sesión</a>
                         </li>
                         {% endif %}
-                        <li class="nav-item ">
-                            <a class="nav-link" style="text-align: center;">Hola!, {{user.username}}</a>
-                        </li>
                     </ul>
                     <a href="{% url 'carrito' %}" class="nav-item hover-effect" style="margin-left: 70px;">
                         <!-- CARRITOOOOO HAY Q CAMBIARLOOO AAAAAAAA -->
