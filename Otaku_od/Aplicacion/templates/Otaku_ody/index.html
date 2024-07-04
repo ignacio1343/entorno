@@ -19,27 +19,17 @@
                     <div class="carousel-container">
                         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="{% static 'img/asuka.png' %}" class="d-block w-100" alt="Asuka">
+                                {% for p in productos %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    {% if p.imagen %}
+                                    <img src="{{ p.imagen.url }}" class="d-block w-100" alt="{{ p.nombre }}">
+                                    {% endif %}
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h5>Asuka "Evangelion"</h5>
-                                        <p>Precio: 15.990$</p>
+                                        <h5>{{ p.nombre }}</h5>
+                                        <p>${{ p.valor }}</p>
                                     </div>
                                 </div>
-                                <div class="carousel-item">
-                                    <img src="{% static 'img/itachi.png' %}" class="d-block w-100" alt="Itachi">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5>Itachi Uchiha "Naruto"</h5>
-                                        <p>Precio: 24.990$</p>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{% static 'img/rei.png' %}" class="d-block w-100" alt="Rei">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5>Rei Ayanami "Evangelion"</h5>
-                                        <p>Precio: 23.990$</p>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -55,6 +45,7 @@
             </div>
         </div>
     </div>
+    
     {% load humanize  %}
     <main>
         <div class="container">

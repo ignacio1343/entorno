@@ -27,8 +27,22 @@ def pedidos_user(request):
 
 def t_productos(request):
     productos = Producto.objects.all()
+    paginator = Paginator(productos, 8)  # Crear un objeto Paginator con tus productos
+
+    page = request.GET.get('page')  # Obtener el número de página desde la URL
+    try:
+        productos_paginados = paginator.get_page(page)
+    except PageNotAnInteger:
+        # Si la página no es un entero, mostrar la primera página
+        productos_paginados = paginator.get_page(1)
+    except EmptyPage:
+        # Si la página está fuera del rango (por ejemplo, 9999), mostrar la última página de resultados
+        productos_paginados = paginator.get_page(paginator.num_pages)
+
+    
     data = {
-        'productos': productos
+        'entity': productos_paginados,
+        'paginator': paginator,
     }
     return render(request, 'Otaku_ody/t_productos.html', data)
 
