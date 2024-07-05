@@ -45,34 +45,40 @@
             </div>
         </div>
     </div>
+    
     {% load humanize  %}
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="mx-lg-5 p-5 mb-4 bg-dark text-white rounded-bottom">
-                        <h1 class="text-center pt-1 fw-bold">Productos</h1>
-                        <h3 class="text-center pb-5">Acá puedes ver algunos de nuestros productos!</h3>
-                        <div class="row row-cols-1 row-cols-md-4 g-4">
-                            {% for p in productos %}
-                            <div class="col">
-                                <div class="card h-100 bg-light text-dark">
-                                    {% if p.imagen %}
-                                    <div class="card-img-top-wrapper rounded-top">
-                                        <img class="card-img-top" src="{{p.imagen.url}}" alt="Card image">
-                                    </div>
-                                    {% endif %}
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">{{p.nombre}}</h4>
-                                        <p class="card-text">${{p.valor | intcomma}}</p>
-                                        <form action="{% url 'agregar_al_carrito' p.id %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-outline-secondary">Añadir al carrito</button>
-                                        </form>
-                                    </div>
+    <div class="container">
+        {% for tipo, productos in productos_por_tipo.items %}
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-12">
+                <div class="mx-lg-5 p-3 mb-4 bg-dark text-white rounded">
+                    <h2 class="text-center fw-bold">{{ tipo.nombre }}</h2>
+                    <div class="row row-cols-1 row-cols-md-4 g-4">
+                        {% for p in productos %}
+                        <div class="col">
+                            <div class="card h-100 bg-light text-dark">
+                                {% if p.imagen %}
+                                <div class="card-img-top-wrapper rounded-top">
+                                    <img class="card-img-top" src="{{p.imagen.url}}" alt="Card image">
+                                </div>
+                                {% endif %}
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h4 class="card-title">{{p.nombre}}</h4>
+                                    <p class="card-text">${{p.valor | intcomma}}</p>
+                                    <form action="{% url 'agregar_al_carrito' p.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-secondary">Añadir al carrito</button>
+                                    </form>
                                 </div>
                             </div>
-                            {% endfor %}
                         </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@
                                                     </tr>
                                                 </thead>
                                             <tbody id="tabla-productos">
-                                                {% for p in pedidos %}
+                                                {% for p in entity %}
                                                     <tr>
                                                         <td>{{ p.usuario }}</td>
                                                         <td>{{ p.fecha }}</td>
@@ -50,7 +50,7 @@
                                                         <td>
                                                         <div class="btn-group">
                                                             <a href="{% url 'modificarpedido' p.id %}" class="btn btn-info btn-sm">Editar</a>
-                                                            <a href="{% url 'eliminarusuario' p.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                                            <a href="{% url 'eliminarpedido' p.id %}" class="btn btn-danger btn-sm">Eliminar</a>
                                                         </div>
                                                         </td>
                                                     </tr>

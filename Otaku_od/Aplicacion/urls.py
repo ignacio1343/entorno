@@ -47,6 +47,7 @@ urlpatterns = [
     path('estadisticas/', estadisticas, name='estadisticas'),
     path('pedidos/', pedidos, name='pedidos'),
     path('modificarpedido/<id>/', modificarpedido, name='modificarpedido'),
+    path('eliminarpedido/<id>/', eliminarpedido, name='eliminarpedido'),
     path('agregartipoproducto/', agregartipoproducto, name='agregartipoproducto'),
     path('modificartipoproducto/<id>/', modificartipoproducto, name='modificartipoproducto'),
     path('eliminartipoproducto/<id>/', eliminartipoproducto, name='eliminartipoproducto'),
