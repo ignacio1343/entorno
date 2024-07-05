@@ -12,10 +12,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="mx-5 mt-4 p-4 bg-dark text-white rounded">
-                    <h1 class="display-1">Contactanos!</h1>
-                    <h3>Puedes ponerte en contacto con nosotros via Correo electronico para cualquier duda sobre nuestros productos.</h3>
-                    <h1>otakuodysseystr@gmail.com</h1>
-                    <h4>Tambien puedes enviarnos retroalimentacion sobre nuestra tienda y así poder ofrecerte una mejor experiencia.</h4>
+                    <h1 class="fw-bold">Contactanos!</h1>
+                    <h3>-Puedes ponerte en contacto con nosotros via Correo electronico<br>para cualquier duda sobre nuestros productos o envios.</h3>
+                    <h2>otakuodysseystr@gmail.com</h2>
+                    <h3>-Tambien puedes enviarnos retroalimentacion sobre nuestra tienda <br> y así poder ofrecerte una mejor experiencia.</h3>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="mx-5 mt-5 mb-4 p-4 bg-dark text-white rounded text-center">
-                    <h1 class="display-1"> Contamos con:</h1>
+                    <h1 class="fw-bold"> Contamos con <br> estas redes:</h1>
                     <a href="https://www.facebook.com/profile.php?id=61558315852897" class="clickable-img">
                         <img class="img-fluid" src="{% static 'img/facebook_logo.png' %}" alt="facebook_logo" style="width:100px;"/>
                     </a>
@@ -36,7 +36,7 @@
                     </a>
                     <h1>Visítanos en nuestra tienda física!</h1>
                     <p>Ubicada en: Locación ficticia, 1343, Concepción</p>
-                    <img class="img-fluid" src="{% static 'img/mapa.png' %}" alt="mapa"> 
+                    <img class="img-fluid rounded" src="{% static 'img/mapa.png' %}" alt="mapa"> 
                 </div>
             </div>
         </div>
@@ -46,13 +46,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="mx-5 p-4 bg-dark text-white rounded">
-                    <a href={% url 'index' %}>
-                        <img src="{% static 'img/logo.png' %}" alt="Logo">
-                    </a>
-                    <div class="d-flex flex-column align-items-end">
-                        <a class="nav-link" href={% url 'index' %}>Inicio</a>
-                        <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
-                        <a class="nav-link" href={% url 'preguntas' %}>Preguntas Frecuentes</a>
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <img src="{% static 'img/logo.png' %}" alt="logo" style="width:120px;" class="rounded-pill logo-effect">
+                        </a>
+                        <div class="d-flex flex-column align-items-end mt-3">
+                            <a class="footer" href="{% url 'index' %}">Inicio</a>
+                            <a class="footer" href="{% url 'contacto' %}">Contacto</a>
+                            <a class="footer" href="{% url 'preguntas' %}">Preguntas Frecuentes</a>
+                        </div>
                     </div>
                 </div>
             </div>

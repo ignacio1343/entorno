@@ -14,8 +14,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="mx-lg-5 mt-4 bg-dark text-white rounded-top">
-                    <h1 class="text-center">Productos destacados</h1>
-                    <p class="text-center">Productos más vendidos!</p>
+                    <h1 class="text-center pt-3 fw-bold">Productos Destacados</h1>
+                    <h3 class="text-center pb-3">Algunos de nuestros productos más vistos!</h3>
                     <div class="carousel-container">
                         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
@@ -45,17 +45,13 @@
             </div>
         </div>
     </div>
-    
     {% load humanize  %}
-    <main>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="mx-lg-5 p-5 mb-4 bg-dark text-white rounded-bottom">
-                        <div class="p-4 rounded">
-                            <h1 class="text-center">Productos</h1>
-                            <p class="text-center">Acá puedes ver algunos de nuestros productos!</p>
-                        </div>
+                        <h1 class="text-center pt-1 fw-bold">Productos</h1>
+                        <h3 class="text-center pb-5">Acá puedes ver algunos de nuestros productos!</h3>
                         <div class="row row-cols-1 row-cols-md-4 g-4">
                             {% for p in productos %}
                             <div class="col">
@@ -68,9 +64,10 @@
                                     <div class="card-body d-flex flex-column justify-content-between">
                                         <h4 class="card-title">{{p.nombre}}</h4>
                                         <p class="card-text">${{p.valor | intcomma}}</p>
-                                        <div class="mt-auto">
-                                            <button class="btn btn-success mb-2">Agregar al carrito</button>
-                                        </div>
+                                        <form action="{% url 'agregar_al_carrito' p.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-secondary">Añadir al carrito</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +77,6 @@
                 </div>
             </div>
         </div>
-    </main>
     <style>
     .card-img-top-wrapper {
         width: 100%;

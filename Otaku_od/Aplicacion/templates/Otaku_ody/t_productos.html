@@ -15,8 +15,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="mx-lg-5 mt-4 p-5 mb-4 bg-dark text-white rounded">
-                        <h1 class="text-center">Productos</h1>
-                        <p class="text-center">Acá puedes ver algunos de nuestros productos!</p>
+                        <h1 class="text-center pt-1 fw-bold">Productos</h1>
+                        <h3 class="text-center pb-5">Acá puedes ver algunos de nuestros productos!</h3>
                         <div class="row row-cols-1 row-cols-md-4 g-4">
                             {% for p in entity %}
                             <div class="col">
@@ -45,11 +45,9 @@
             </div>
         </div>
     </main>
-    
     <div>
         {% include "Otaku_ody/paginator.html" %}
     </div>
-    
     <style>
     .card-img-top-wrapper {
         width: 100%;
@@ -70,13 +68,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="mx-5 p-4 bg-dark text-white rounded">
-                    <a href={% url 'index' %}>
-                        <img src="{% static 'img/logo.png' %}" alt="Logo">
-                    </a>
-                    <div class="d-flex flex-column align-items-end">
-                        <a class="nav-link" href={% url 'index' %}>Inicio</a>
-                        <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
-                        <a class="nav-link" href={% url 'preguntas' %}>Preguntas Frecuentes</a>
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <img src="{% static 'img/logo.png' %}" alt="logo" style="width:120px;" class="rounded-pill logo-effect">
+                        </a>
+                        <div class="d-flex flex-column align-items-end mt-3">
+                            <a class="footer" href="{% url 'index' %}">Inicio</a>
+                            <a class="footer" href="{% url 'contacto' %}">Contacto</a>
+                            <a class="footer" href="{% url 'preguntas' %}">Preguntas Frecuentes</a>
+                        </div>
                     </div>
                 </div>
             </div>

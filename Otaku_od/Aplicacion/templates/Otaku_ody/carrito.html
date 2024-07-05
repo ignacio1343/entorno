@@ -5,43 +5,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script src="{% static 'Aplicacion/js/comprar.js' %}"></script>
     <title>{% block title %}Otaku Odyssey - Carrito{% endblock %}</title>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-12">
-                <div class="mx-lg-5 mt-4 bg-dark text-white rounded">
-                <h1>OLA</h1>
-
-                <div class="carrito-list">
-                    {% for item in items %}
-                    <div class="item-carrito card mb-3">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{{ item.producto.imagen.url }}" class="img-fluid rounded-start" alt="{{ item.p.nombre }}">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h2 class="card-title">{{ item.producto.nombre }}</h2>
-                                    <p class="card-text">{{ item.producto.tipo }}</p>
-                                    <p class="card-text"><small class="text-muted">Precio: ${{ item.producto.valor }}</small></p>
-                                    <p class="card-text">Cantidad: {{ item.cantidad }}</p>
-                                    <a href="{% url 'eliminar_del_carrito' item.id %}" class="btn btn-danger">Eliminar</a>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mx-lg-5 mt-4 mb-4 bg-dark text-white rounded p-4">
+                            <div class="carrito-list">
+                                {% for item in items %}
+                                <div class="item-carrito card mb-3">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="{{ item.producto.imagen.url }}" class="img-fluid rounded-start" alt="{{ item.producto.nombre }}">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body bg-dark text-white">
+                                                <h2 class="card-title">{{ item.producto.nombre }}</h2>
+                                                <p class="card-text">{{ item.producto.tipo }}</p>
+                                                <p class="card-text"><small class="}}text-white">Precio: ${{ item.producto.valor }}</small></p>
+                                                <p class="card-text">Cantidad: {{ item.cantidad }}</p>
+                                                <a href="{% url 'eliminar_del_carrito' item.id %}" class="btn btn-danger">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                {% empty %}
+                                <div class="alert alert-info" role="alert">
+                                    No hay productos en tu carrito.
+                                </div>
+                                {% endfor %}
                             </div>
+                            <p class="total">Total: ${{ total }}</p>
                         </div>
                     </div>
-                    {% empty %}
-                    <div class="alert alert-info" role="alert">
-                        No hay productos en tu carrito.
+                    <div class="col-lg-6">
+                        <div class="mx-lg-5 mt-4 mb-4 bg-dark text-white rounded p-4">
+                            <form action="index.html" method="post">
+                                {% csrf_token %}
+                                <h1>Información del pago</h1>
+                                <div>
+                                    <label for="metodo_pago" class="form-label" required>Metodo de pago:</label>
+                                    <select id="metodo_pago" name="metodo_pago" class="form-select" onchange="showPaymentFields()">
+                                        <option selected value="">Selecciona un método de pago</option>
+                                        <option value="Visa">Visa</option>
+                                        <option value="MasterCard">MasterCard</option>
+                                        <option value="PayPal">PayPal</option>
+                                    </select>
+                                </div>
+                                <div id="paymentFields" style="display: none;">
+                                    <div class="mb-3">
+                                        <label for="cardNumber" class="form-label">Número de Tarjeta</label>
+                                        <input type="text" required class="form-control" id="cardNumber"
+                                            placeholder="Ingrese el número de tarjeta" oninput="validarNumeroTarjeta(this)">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="expirationDate" class="form-label">Fecha de Expiración</label>
+                                            <input type="text" class="form-control" id="expirationDate" placeholder="MM/AA"
+                                                maxlength="5" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cvv" class="form-label">CVV</label>
+                                            <input type="text" required class="form-control" id="cvv" placeholder="Ingrese el CVV"
+                                                oninput="validarCVV(this)">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="cardholderName" class="form-label">Nombre del Titular de la Tarjeta</label>
+                                            <input type="text" class="form-control" id="cardholderName"
+                                                placeholder="Ingrese el nombre del titular de la tarjeta" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h1>Datos personales y Envio</h1>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Dirección*</label>
+                                    <input type="text" class="form-control" id="address" placeholder="Ingrese la dirección"
+                                        required>
+                                </div>
+                                <div>
+                                    <label for="region" class="form-label" required>Seleccione Region:</label>
+                                    <select id="region" name="region" class="form-select">
+                                        <option selected value="">Seleccione una región</option>
+                                        <option value="Arica y Parinacota">Arica y Parinacota</option>
+                                        <option value="Tarapacá">Tarapacá</option>
+                                        <option value="Antofagasta">Antofagasta</option>
+                                        <option value="Atacama">Atacama</option>
+                                        <option value="Coquimbo">Coquimbo</option>
+                                        <option value="Valparaíso">Valparaíso</option>
+                                        <option value="Metropolitana de Santiago">Metropolitana de Santiago</option>
+                                        <option value="Libertador General Bernardo O'Higgins">Libertador General Bernardo
+                                            O'Higgins</option>
+                                        <option value="Maule">Maule</option>
+                                        <option value="Ñuble">Ñuble</option>
+                                        <option value="Biobío">Biobío</option>
+                                        <option value="La Araucanía">La Araucanía</option>
+                                        <option value="Los Ríos">Los Ríos</option>
+                                        <option value="Los Lagos">Los Lagos</option>
+                                        <option value="Aysén del General Carlos Ibáñez del Campo">Aysén del General Carlos
+                                            Ibáñez del Campo</option>
+                                        <option value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica
+                                            Chilena</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="comuna" class="form-label" required>Seleccione Comuna:</label>
+                                    <select id="comuna" name="comuna" class="form-select">
+                                        <option selected value="">Seleccione Comuna</option>
+                                        <option value="Concepción">Concepción</option>
+                                        <option value="Talcahuano">Talcahuano</option>
+                                        <option value="Chillán">Chillán</option>
+                                        <option value="Los Ángeles">Los Ángeles</option>
+                                        <option value="Coronel">Coronel</option>
+                                        <option value="San Pedro de la Paz">San Pedro de la Paz</option>
+                                        <option value="Tomé">Tomé</option>
+                                        <option value="Penco">Penco</option>
+                                        <option value="Lota">Lota</option>
+                                        <option value="Hualpén">Hualpén</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="metodo_envio" class="form-label" required>Seleccione Metodo de envio:</label>
+                                    <select id="metodo_envio" name="metodo_envio" class="form-select">
+                                        <option value="">Selecciona un método de envio</option>
+                                        <option value="Starken">Starken</option>
+                                        <option value="Chilexpress">Chilexpress</option>
+                                        <option value="Bluexpress">Bluexpress</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="+569123456789" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="recipientName" class="form-label">Nombre del Receptor*</label>
+                                        <input type="text" class="form-control" id="recipientName"
+                                            placeholder="Ingrese el nombre del receptor" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="recipientLastName" class="form-label">Apellido del Receptor*</label>
+                                        <input type="text" class="form-control" id="recipientLastName"
+                                            placeholder="Ingrese el apellido del receptor" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="rut" class="form-label">Rut*</label>
+                                        <input type="text" class="form-control" id="rut" name="rut" required oninput="checkRut(this)"
+                                            placeholder="Ingrese RUT">
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="submit" id="buyButton" class="btn btn-success">Realizar compra</button>
+                                        <button type="button" class="btn btn-danger" id="clearCart" onclick="redirectToHash()">Cancelar compra</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    {% endfor %}
-                </div>
-            
-                <p class="total">Total: ${{ total }}</p>
-
-
                 </div>
             </div>
         </div>
@@ -52,13 +174,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="mx-5 p-4 bg-dark text-white rounded">
-                    <a href={% url 'index' %}>
-                        <img src="{% static 'img/logo.png' %}" alt="Logo">
-                    </a>
-                    <div class="d-flex flex-column align-items-end">
-                        <a class="nav-link" href={% url 'index' %}>Inicio</a>
-                        <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
-                        <a class="nav-link" href={% url 'preguntas' %}>Preguntas Frecuentes</a>
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <img src="{% static 'img/logo.png' %}" alt="logo" style="width:120px;" class="rounded-pill logo-effect">
+                        </a>
+                        <div class="d-flex flex-column align-items-end mt-3">
+                            <a class="footer" href="{% url 'index' %}">Inicio</a>
+                            <a class="footer" href="{% url 'contacto' %}">Contacto</a>
+                            <a class="footer" href="{% url 'preguntas' %}">Preguntas Frecuentes</a>
+                        </div>
                     </div>
                 </div>
             </div>
