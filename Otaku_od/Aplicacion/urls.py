@@ -20,7 +20,7 @@ from Aplicacion import views
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import preguntas, pedidos_user, t_productos, contacto,pedidos,\
-     administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios, listapedido,\
+        administracion, listaproducto, agregarproducto,modificarproducto,eliminarproducto,usuarios,\
         agregarusuario,modificarusuario,eliminarusuario,registro, carrito, estadisticas, pedidos
 from .views import *
 from rest_framework import routers
@@ -46,7 +46,7 @@ urlpatterns = [
     path('registro/', registro, name='registro'),
     path('estadisticas/', estadisticas, name='estadisticas'),
     path('pedidos/', pedidos, name='pedidos'),
-    path('listapedido/', listapedido, name='listapedido'),
+    path('modificarpedido/<id>/', modificarpedido, name='modificarpedido'),
     path('agregartipoproducto/', agregartipoproducto, name='agregartipoproducto'),
     path('modificartipoproducto/<id>/', modificartipoproducto, name='modificartipoproducto'),
     path('eliminartipoproducto/<id>/', eliminartipoproducto, name='eliminartipoproducto'),
@@ -56,6 +56,8 @@ urlpatterns = [
     path('agregar-al-carrito/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('ver-carrito/', views.ver_carrito, name='ver_carrito'),
     path('eliminar-del-carrito/<int:item_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('carrito/crear_pedido/', views.crear_pedido, name='crear_pedido'),
+    path('pedido/<int:pedido_id>/', views.ver_pedido, name='ver_pedido'),
     path('api/', include(router.urls)),
 ]
 
