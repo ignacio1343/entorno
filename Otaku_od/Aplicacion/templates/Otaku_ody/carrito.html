@@ -87,8 +87,8 @@
                                         required>
                                 </div>
                                 <div>
-                                    <label for="region" class="form-label" required>Seleccione Region:</label>
-                                    <select id="region" name="region" class="form-select">
+                                    <label for="region" class="form-label" required>Seleccione Región:</label>
+                                    <select id="region" name="region" class="form-select" onchange="cambiarComunas()">
                                         <option selected value="">Seleccione una región</option>
                                         <option value="Arica y Parinacota">Arica y Parinacota</option>
                                         <option value="Tarapacá">Tarapacá</option>
@@ -97,36 +97,158 @@
                                         <option value="Coquimbo">Coquimbo</option>
                                         <option value="Valparaíso">Valparaíso</option>
                                         <option value="Metropolitana de Santiago">Metropolitana de Santiago</option>
-                                        <option value="Libertador General Bernardo O'Higgins">Libertador General Bernardo
-                                            O'Higgins</option>
+                                        <option value="Libertador General Bernardo O'Higgins">Libertador General Bernardo O'Higgins</option>
                                         <option value="Maule">Maule</option>
                                         <option value="Ñuble">Ñuble</option>
                                         <option value="Biobío">Biobío</option>
                                         <option value="La Araucanía">La Araucanía</option>
                                         <option value="Los Ríos">Los Ríos</option>
                                         <option value="Los Lagos">Los Lagos</option>
-                                        <option value="Aysén del General Carlos Ibáñez del Campo">Aysén del General Carlos
-                                            Ibáñez del Campo</option>
-                                        <option value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica
-                                            Chilena</option>
+                                        <option value="Aysén del General Carlos Ibáñez del Campo">Aysén del General Carlos Ibáñez del Campo</option>
+                                        <option value="Magallanes y de la Antártica Chilena">Magallanes y de la Antártica Chilena</option>
                                     </select>
                                 </div>
+                                
                                 <div>
                                     <label for="comuna" class="form-label" required>Seleccione Comuna:</label>
                                     <select id="comuna" name="comuna" class="form-select">
                                         <option selected value="">Seleccione Comuna</option>
-                                        <option value="Concepción">Concepción</option>
-                                        <option value="Talcahuano">Talcahuano</option>
-                                        <option value="Chillán">Chillán</option>
-                                        <option value="Los Ángeles">Los Ángeles</option>
-                                        <option value="Coronel">Coronel</option>
-                                        <option value="San Pedro de la Paz">San Pedro de la Paz</option>
-                                        <option value="Tomé">Tomé</option>
-                                        <option value="Penco">Penco</option>
-                                        <option value="Lota">Lota</option>
-                                        <option value="Hualpén">Hualpén</option>
                                     </select>
                                 </div>
+                                
+                                <script>
+                                    function cambiarComunas() {
+                                        var regionSeleccionada = document.getElementById("region").value;
+                                        var comunasSelect = document.getElementById("comuna");
+                                
+                                        // Limpiar opciones actuales
+                                        comunasSelect.innerHTML = '';
+                                
+                                        // Agregar las nuevas opciones según la región seleccionada
+                                        switch (regionSeleccionada) {
+                                            case "Arica y Parinacota":
+                                                agregarComunas(["Arica", "Putre", "Camarones", "General Lagos"]);// Ejemplo de comunas para Arica y Parinacota
+                                                break;
+                                            case "Tarapacá":
+                                                agregarComunas(["Iquique", "Alto Hospicio", "Pozo Almonte", "Camiña", "Colchane", "Huara", "Pica"]);// Ejemplo de comunas para Tarapacá
+                                                break;
+                                            case "Antofagasta":
+                                                agregarComunas(["Antofagasta", "Mejillones", "Sierra Gorda", "Taltal", "Calama", "Ollagüe", "San Pedro de Atacama", "María Elena", "Tocopilla"]);
+                                                break;
+                                            case "Atacama":
+                                                agregarComunas(["Copiapó", "Caldera", "Chañaral", "Diego de Almagro", "Tierra Amarilla", "Vallenar", "Alto del Carmen", "Freirina", "Huasco"]);
+                                                break;
+                                            case "Coquimbo":
+                                                agregarComunas(["La Serena", "Coquimbo", "Andacollo", "La Higuera", "Paiguano", "Vicuña", "Illapel", "Canela", "Los Vilos", "Salamanca", "Ovalle", "Combarbalá", "Monte Patria", "Punitaqui", "Río Hurtado"]);
+                                                break;
+                                            case "Valparaíso":
+                                                agregarComunas(["Valparaíso", "Viña del Mar", "Concón", "Quintero", "Puchuncaví", "Casablanca", "Juan Fernández", "San Antonio", "Algarrobo", "Cartagena", "El Quisco", "El Tabo", "Santo Domingo", "Isla de Pascua", "Los Andes", "Calle Larga", "Rinconada", "San Esteban", "La Ligua", "Cabildo", "Papudo", "Petorca", "Zapallar", "Quillota", "Calera", "Hijuelas", "La Cruz", "Nogales", "San Antonio", "Santo Domingo", "Limache", "Olmué"]);
+                                                break;
+                                            case "Metropolitana de Santiago":
+                                                agregarComunas([
+                                                "Santiago", "Cerrillos", "Cerro Navia", "Conchalí", "El Bosque",
+                                                "Estación Central", "Huechuraba", "Independencia", "La Cisterna",
+                                                "La Florida", "La Granja", "La Pintana", "La Reina", "Las Condes",
+                                                "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "Ñuñoa",
+                                                "Padre Hurtado", "Pedro Aguirre Cerda", "Peñaflor", "Peñalolén",
+                                                "Pirque", "Providencia", "Pudahuel", "Puente Alto", "Quilicura",
+                                                "Quinta Normal", "Recoleta", "Renca", "San Bernardo", "San Joaquín",
+                                                "San José de Maipo", "San Miguel", "San Pedro", "San Ramón",
+                                                "Santiago", "Talagante", "Tiltil", "Vitacura"
+                                            ]);
+                                                break;
+                                            case "Libertador General Bernardo O'Higgins":
+                                                agregarComunas([
+                                                "Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros",
+                                                "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo",
+                                                "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente",
+                                                "La Estrella", "Litueche", "Marchigüe", "Navidad", "Peredones",
+                                                "Pichilemu", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla",
+                                                "Peralillo", "Placilla", "Pumanque", "Santa Cruz"
+                                            ]);
+                                                break;
+                                            case "Maule":
+                                                agregarComunas([
+                                                "Talca", "Constitución", "Curepto", "Empedrado", "Maule", "Pelarco",
+                                                "Pencahue", "Río Claro", "San Clemente", "San Rafael", "Cauquenes",
+                                                "Chanco", "Pelluhue", "Curicó", "Hualañé", "Licantén", "Molina",
+                                                "Rauco", "Romeral", "Sagrada Familia", "Teno", "Vichuquén", "Linares",
+                                                "Colbún", "Longaví", "Parral", "Retiro", "San Javier", "Villa Alegre",
+                                                "Yerbas Buenas"
+                                            ]);
+                                                break;
+                                            case "Ñuble":
+                                                agregarComunas([
+                                                "Chillán", "Bulnes", "Cobquecura", "Coelemu", "Coihueco", "Chillán Viejo",
+                                                "El Carmen", "Ninhue", "Ñiquén", "Pemuco", "Pinto", "Portezuelo",
+                                                "Quillón", "Quirihue", "Ránquil", "San Carlos", "San Fabián",
+                                                "San Ignacio", "San Nicolás", "Treguaco", "Yungay"
+                                            ]);
+                                                break;
+                                            case "Biobío":
+                                                agregarComunas([
+                                                "Concepción", "Coronel", "Chiguayante", "Florida", "Hualqui", "Lota",
+                                                "Penco", "San Pedro de la Paz", "Santa Juana", "Talcahuano", "Tomé",
+                                                "Bulnes", "Cabrero", "Laja", "Los Ángeles", "Mulchén", "Nacimiento",
+                                                "Negrete", "Quilaco", "Quilleco", "San Rosendo", "Santa Bárbara",
+                                                "Tucapel", "Yumbel", "Alto Biobío", "Antuco", "Arauco", "Cañete",
+                                                "Contulmo", "Curanilahue", "Lebu", "Los Álamos", "Tirúa"
+                                            ]);
+                                                break;
+                                            case "La Araucanía":
+                                                agregarComunas([
+                                                "Temuco", "Carahue", "Cunco", "Curarrehue", "Freire", "Galvarino",
+                                                "Gorbea", "Lautaro", "Loncoche", "Melipeuco", "Nueva Imperial",
+                                                "Padre las Casas", "Perquenco", "Pitrufquén", "Pucón", "Saavedra",
+                                                "Teodoro Schmidt", "Toltén", "Vilcún", "Villarrica", "Cholchol",
+                                                "Angol", "Collipulli", "Curacautín", "Ercilla", "Lonquimay",
+                                                "Los Sauces", "Lumaco", "Purén", "Renaico", "Traiguén", "Victoria"
+                                            ]);
+                                                break;
+                                            case "Los Ríos":
+                                                agregarComunas([
+                                                "Valdivia", "Corral", "Lanco", "Los Lagos", "Máfil", "Mariquina",
+                                                "Paillaco", "Panguipulli", "La Unión", "Futrono", "Lago Ranco",
+                                                "Río Bueno"
+                                            ]);
+                                                break;
+                                            case "Los Lagos":
+                                                agregarComunas([
+                                                "Puerto Montt", "Calbuco", "Cochamó", "Fresia", "Frutillar",
+                                                "Los Muermos", "Llanquihue", "Maullín", "Puerto Varas", "Castro",
+                                                "Ancud", "Chonchi", "Curaco de Vélez", "Dalcahue", "Puqueldón",
+                                                "Queilén", "Quellón", "Quemchi", "Quinchao", "Osorno", "Puerto Octay",
+                                                "Purranque", "Puyehue", "Río Negro", "San Juan de la Costa",
+                                                "San Pablo", "Chaitén", "Futaleufú", "Hualaihué", "Palena"
+                                            ]);
+                                                break;
+                                            case "Aysén del General Carlos Ibáñez del Campo":
+                                                agregarComunas([
+                                                "Coyhaique", "Lago Verde", "Aysén", "Cisnes", "Guaitecas", "Cochrane",
+                                                "O'Higgins", "Tortel"
+                                            ]);
+                                                break;
+                                            case "Magallanes y de la Antártica Chilena":
+                                                agregarComunas(["Punta Arenas", "Puerto Natales", "Porvenir", "Cerro Sombrero", "Timaukel", "Primavera", "San Gregorio"]);
+                                                break;
+                                            default:
+                                                comunasSelect.innerHTML = '<option selected value="">Seleccione Comuna</option>';
+                                                break;
+                                        }
+                                    }
+                                
+                                    function agregarComunas(comunas) {
+                                        var comunasSelect = document.getElementById("comuna");
+                                
+                                        // Agregar cada comuna como una opción en el select
+                                        comunas.forEach(function(comuna) {
+                                            var option = document.createElement("option");
+                                            option.text = comuna;
+                                            option.value = comuna;
+                                            comunasSelect.add(option);
+                                        });
+                                    }
+                                </script>
                                 <div>
                                     <label for="metodo_envio" class="form-label" required>Seleccione Metodo de envio:</label>
                                     <select id="metodo_envio" name="metodo_envio" class="form-select">

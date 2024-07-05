@@ -28,10 +28,19 @@ def admin_required(view_func):
     return _wrapped_view
 
 # Vista para el índice
-def index(request):
-    productos = Producto.objects.all()
-    return render(request, 'Otaku_ody/index.html', {'productos': productos})
 
+def index(request):
+    tipos = TipoProducto.objects.all()
+    productos = Producto.objects.all()
+    
+    productos_por_tipo = {}
+    for tipo in tipos:
+        productos_por_tipo[tipo] = Producto.objects.filter(tipo=tipo)
+    
+    return render(request, 'Otaku_ody/index.html', {
+        'productos': productos,
+        'productos_por_tipo': productos_por_tipo,
+    })
 # Vista para preguntas frecuentes
 def preguntas(request):
     return render(request, 'Otaku_ody/preguntas.html')
@@ -39,22 +48,51 @@ def preguntas(request):
 # Vista para los pedidos del usuario
 @login_required
 def pedidos_user(request):
-    return render(request, 'Otaku_ody/pedidos_user.html')
+    # Filtrar pedidos por el usuario actual
+    pedidos = Pedido.objects.filter(usuario=request.user)
 
-# Vista para listar productos con paginación
-def t_productos(request):
-    productos = Producto.objects.all()
-    paginator = Paginator(productos, 8)
+    for pedido in pedidos:
+        pedido.calcular_total()  # Calcula y guarda el total
+        pedido.productos = pedido.obtener_productos()
+
+    paginator = Paginator(pedidos, 4)
 
     page = request.GET.get('page')
     try:
-        productos_paginados = paginator.get_page(page)
+        pedidos_paginados = paginator.page(page)
     except PageNotAnInteger:
-        productos_paginados = paginator.get_page(1)
+        pedidos_paginados = paginator.page(1)
     except EmptyPage:
-        productos_paginados = paginator.get_page(paginator.num_pages)
+        pedidos_paginados = paginator.page(paginator.num_pages)
 
-    return render(request, 'Otaku_ody/t_productos.html', {'entity': productos_paginados, 'paginator': paginator})
+    return render(request, 'Otaku_ody/pedidos_user.html', {'entity': pedidos_paginados, 'paginator': paginator})
+
+# Vista para listar productos con paginación
+def t_productos(request):
+    tipos_productos = TipoProducto.objects.all()  # Obtener todos los tipos de productos
+    tipo_seleccionado = request.GET.get('tipo')  # Obtener el tipo seleccionado del query string
+
+    if tipo_seleccionado:
+        productos = Producto.objects.filter(tipo__nombre=tipo_seleccionado)
+    else:
+        productos = Producto.objects.all()
+
+    paginator = Paginator(productos, 8)
+    page = request.GET.get('page')
+
+    try:
+        productos_paginados = paginator.page(page)
+    except PageNotAnInteger:
+        productos_paginados = paginator.page(1)
+    except EmptyPage:
+        productos_paginados = paginator.page(paginator.num_pages)
+
+    return render(request, 'Otaku_ody/t_productos.html', {
+        'entity': productos_paginados,
+        'paginator': paginator,
+        'tipos_productos': tipos_productos,
+        'tipo_seleccionado': tipo_seleccionado
+    })
 
 # Vista para la página de contacto
 def contacto(request):
@@ -181,9 +219,16 @@ def modificarpedido(request, id):
         form = ModificarPedidoForm(request.POST, request.FILES, instance=pedidos)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Pedido agregado')
+            messages.success(request, 'Pedido Modificado')
             return redirect('pedidos')
     return render(request, 'Otaku_ody/modificarpedido.html', {'form': form})
+
+@admin_required
+def eliminarpedido(request, id):
+    tipoproducto = get_object_or_404(Pedido, id=id)
+    tipoproducto.delete()
+    messages.warning(request, 'Pedido Eliminado')
+    return redirect('pedidos')
 
 @admin_required
 def tipoproducto(request):
@@ -261,20 +306,46 @@ def carrito(request):
 
 def get_or_create_cart(request):
     if request.user.is_authenticated:
-        carrito, created = Carrito.objects.get_or_create(usuario=request.user)
+        carrito = Carrito.objects.filter(usuario=request.user).first()
+        if not carrito:
+            carrito = Carrito.objects.create(usuario=request.user)
     else:
         session_key = request.session.session_key or request.session.create()
-        carrito, created = Carrito.objects.get_or_create(session_key=session_key)
+        carrito = Carrito.objects.filter(session_key=session_key).first()
+        if not carrito:
+            carrito = Carrito.objects.create(session_key=session_key)
     return carrito
 
 @login_required
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     carrito = get_or_create_cart(request)
-    item, item_created = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto)
-    if not item_created:
-        item.cantidad += 1
+    
+    if request.method == 'POST':
+        cantidad = int(request.POST.get('cantidad', 1))
+        if cantidad < 1:
+            messages.error(request, "La cantidad debe ser al menos 1.")
+            return redirect('t_productos')
+        
+        item, item_created = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto)
+        if not item_created:
+            item.cantidad += cantidad
+        else:
+            item.cantidad = cantidad
         item.save()
+    
+    return redirect('ver_carrito')
+
+@login_required
+def actualizar_carrito(request, item_id):
+    item = get_object_or_404(ItemCarrito, id=item_id)
+    if request.method == 'POST':
+        cantidad = int(request.POST.get('cantidad', 1))
+        if cantidad < 1:
+            messages.error(request, "La cantidad debe ser al menos 1.")
+        else:
+            item.cantidad = cantidad
+            item.save()
     return redirect('ver_carrito')
 
 @login_required
@@ -292,21 +363,88 @@ def eliminar_del_carrito(request, item_id):
 
 @login_required
 def crear_pedido(request):
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        metodo_pago = request.POST.get('metodo_pago')
+        card_number = request.POST.get('cardNumber')
+        expiration_date = request.POST.get('expirationDate')
+        cvv = request.POST.get('cvv')
+        cardholder_name = request.POST.get('cardholderName')
+        address = request.POST.get('address')
+        region = request.POST.get('region')
+        comuna = request.POST.get('comuna')
+        metodo_envio = request.POST.get('metodo_envio')
+        phone = request.POST.get('phone')
+        recipient_name = request.POST.get('recipientName')
+        recipient_last_name = request.POST.get('recipientLastName')
+        rut = request.POST.get('rut')
+
+        # Validar y procesar los datos según sea necesario
+        
+        # Crear el pedido
+        pedido = Pedido.objects.create(
+            usuario=request.user,
+            metodo_pago=metodo_pago,
+            direccion_entrega=address,
+            region=region,
+            comuna=comuna,
+            metodo_envio=metodo_envio,
+            telefono=phone,
+            nombre_receptor=recipient_name,
+            apellido_receptor=recipient_last_name,
+            rut=rut
+        )
+
+        # Procesar los productos del carrito y crear los objetos PedidoProducto
+        carrito = get_or_create_cart(request)
+
+        for item in carrito.items.all():
+            if item.producto.stock < item.cantidad:
+                pedido.delete()  # Eliminar el pedido si no hay suficiente stock
+                messages.error(request, f'No hay suficiente stock para el producto {item.producto.nombre}')
+                return redirect('ver_carrito')
+
+            item.producto.stock -= item.cantidad
+            item.producto.save()
+
+            PedidoProducto.objects.create(pedido=pedido, producto=item.producto, cantidad=item.cantidad)
+
+        pedido.calcular_total()
+
+        carrito.items.all().delete()
+
+        messages.success(request, "Pedido creado con éxito.")
+        return redirect('ver_carrito')
+
+
+@login_required
+def crear_pedido(request):
     carrito = get_or_create_cart(request)
+    
+    if not carrito.items.exists():
+        messages.error(request, "No puedes crear un pedido con un carrito vacío.")
+        return redirect('ver_carrito')
+    
     pedido = Pedido.objects.create(usuario=request.user)
     
-    # Verificación y actualización del stock
     for item in carrito.items.all():
         if item.producto.stock < item.cantidad:
-            raise ValidationError(f'No hay suficiente stock para el producto {item.producto.nombre}')
+            pedido.delete()  # Eliminar el pedido si no hay suficiente stock
+            messages.error(request, f'No hay suficiente stock para el producto {item.producto.nombre}')
+            return redirect('ver_carrito')
+        
         item.producto.stock -= item.cantidad
         item.producto.save()
+        
         PedidoProducto.objects.create(pedido=pedido, producto=item.producto, cantidad=item.cantidad)
     
     pedido.calcular_total()
-    pedido.save()
-    carrito.delete()  # Limpiar el carrito después de crear el pedido
+    
+    carrito.items.all().delete()
+    
+    messages.success(request, "Pedido creado con éxito.")
     return redirect('ver_pedido', pedido_id=pedido.id)
+
 
 @login_required
 def ver_pedido(request, pedido_id):
