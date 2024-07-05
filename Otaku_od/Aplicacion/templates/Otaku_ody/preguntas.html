@@ -43,13 +43,14 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="mx-5 p-4 bg-dark text-white rounded">
-                    <a href={% url 'index' %}>
-                        <img src="{% static 'img/logo.png' %}" alt="Logo">
-                    </a>
-                    <div class="d-flex flex-column align-items-end">
-                        <a class="nav-link" href={% url 'index' %}>Inicio</a>
-                        <a class="nav-link" href={% url 'contacto' %}>Contacto</a>
-                        <a class="nav-link" href={% url 'preguntas' %}>Preguntas Frecuentes</a>
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <img src="{% static 'img/logo.png' %}" alt="logo" style="width:120px;" class="rounded-pill logo-effect">
+                        </a>
+                        <div class="d-flex flex-column align-items-end mt-3">
+                            <a class="footer" href="{% url 'index' %}">Inicio</a>
+                            <a class="footer" href="{% url 'contacto' %}">Contacto</a>
+                            <a class="footer" href="{% url 'preguntas' %}">Preguntas Frecuentes</a>
+                        </div>
                     </div>
                 </div>
             </div>
