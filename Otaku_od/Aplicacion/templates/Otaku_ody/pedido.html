@@ -10,12 +10,12 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-12">
-                <div class="mx-lg-5 mt-4 bg-dark text-white rounded">
-                    <h1>Detalle del Pedido</h1>
+            <div class="col-lg-8">
+                <div class="mx-lg-5 mt-5 mb-5 bg-dark text-white rounded print-section">
+                    <h1 class="text-center fw-bold pt-3">Detalle del Pedido</h1>
                     <div class="pedido-list">
                         {% for item in items %}
-                        <div class="item-pedido card mb-3">
+                        <div class="item-pedido card m-4 mb-3">
                             <div class="row g-0">
                                 <div class="col-md-4">
                                     <img src="{{ item.producto.imagen.url }}" class="img-fluid rounded-start" alt="{{ item.producto.nombre }}">
@@ -25,19 +25,55 @@
                                         <h2 class="card-title">{{ item.producto.nombre }}</h2>
                                         <p class="card-text">{{ item.producto.tipo }}</p>
                                         <p class="card-text"><small class="text-muted">Precio: ${{ item.producto.valor }}</small></p>
-                                        <p class="card-text">Cantidad: {{ item.cantidad }}</p>
+                                        <p class="card-text">Productos: {{ item.cantidad }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-                    <p class="total">Total: ${{ pedido.total }}</p>
-                    <a href="{% url 'index' %}" class="btn btn-primary">Volver al Inicio</a>
+                    <div class="text-center pb-4">
+                        <p class="text-center fw-bold pt-3">Para ver el estado de su compra dirigase a "Mis pedidos" o contactenos via correo electronico dandonos tu id de pedido</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-dark text-white text-center rounded p-4 mt-5">
+                    <h2 class="fw-bold text-center">Resumen de la Compra</h2>
+                        <h2 class="card-title">{{ item.producto.nombre }}</h2>
+                        <p class="card-text">{{ item.producto.tipo }}</p>
+                        <div class="card-body">
+                        <p class="card-text">Id de pedido: {{ pedido.id }}</p>
+                        <p class="text-center">Precio Total: ${{ pedido.total }}</p>
+                        <a href="{% url 'index' %}" class="btn btn-success">Volver al Inicio</a>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="bg-dark text-white text-center rounded p-4 mt-5">
+                    <h2 class="fw-bold text-center">Gracias por su compra!</h2>
+                    <img src="{% static 'img/pochita1.webp' %}" class="rounded">
                 </div>
             </div>
         </div>
     </div>
+    <footer class="bg-dark text-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="mx-5 p-4 bg-dark text-white rounded">
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <img src="{% static 'img/logo.png' %}" alt="logo" style="width:120px;" class="rounded-pill logo-effect">
+                        </a>
+                        <div class="d-flex flex-column align-items-end mt-3">
+                            <a class="footer" href="{% url 'index' %}">Inicio</a>
+                            <a class="footer" href="{% url 'contacto' %}">Contacto</a>
+                            <a class="footer" href="{% url 'preguntas' %}">Preguntas Frecuentes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
 {% endblock contenido %}
