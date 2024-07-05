@@ -29,42 +29,38 @@
                                     <div id="mensaje-error" class="alert alert-danger" style="display: none;"></div>
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered">
-                                            <thead class="thead-dark">
-                                                <tr>
-                                                    <th>Comprador</th>
-                                                    <th>Producto</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Valor</th>
-                                                    <th>Total</th>
-                                                    <th>Estado</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Usuario</th>
+                                                        <th>Fecha</th>
+                                                        <th>Total</th>
+                                                        <th>Productos</th>
+                                                        <th>Estado</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
                                             <tbody id="tabla-productos">
                                                 {% for p in pedidos %}
-                                                <tr>
-                                                    <td>{{ p.pedido }}</td>
-                                                    <td>{{ p.producto }}</td>
-                                                    <td>{{ p.cantidad }}</td>
-                                                    <td>{{ p.valor }}</td>
-                                                    <td>{{ p.total }}</td>
-                                                    <td>{{ p.estado }}</td>
-                                                    <td>
-                                                        <form method="get" action="">
-                                                            <button type="submit" class="btn btn-warning">Editar</button>
-                                                        </form>
-                                                        <form method="get" action="">
-                                                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td>{{ p.usuario }}</td>
+                                                        <td>{{ p.fecha }}</td>
+                                                        <td>{{ p.total }}</td>
+                                                        <td>{{ p.productos|join:", " }}</td>
+                                                        <td>{{ p.estado }}</td>
+                                                        <td>
+                                                        <div class="btn-group">
+                                                            <a href="{% url 'modificarpedido' p.id %}" class="btn btn-info btn-sm">Editar</a>
+                                                            <a href="{% url 'eliminarusuario' p.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                                        </div>
+                                                        </td>
+                                                    </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
-                                    <form method="get" action="">
-                                        <button type="submit" class="btn btn-primary" id="agregar-producto">Agregar Usuario</button>
-                                    </form>
+                                    <div>
+                                        {% include "Otaku_ody/paginator.html" %}
+                                    </div>
                                 </div>
                             </div>
                         </div>

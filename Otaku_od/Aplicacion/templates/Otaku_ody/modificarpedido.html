@@ -1,0 +1,54 @@
+{% extends "Otaku_ody/adminnav.html" %}
+{% load static %}
+{% block contenido %}
+
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otaku Odyssey - Admin</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
+</head>
+
+<body class="body">
+
+
+<div class="row">
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h2>Modificar Pedido</h2>
+                <hr>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary" >Editar Pedido</button>
+                        
+                        <a href="{% url 'pedidos'%}" class="btn btn-secondary">Volver atras</a>
+                    </div>
+                </form>
+                {{mensaje}}  
+            </div>
+        </div>
+    </div>
+</div>
+            
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/producto.js"></script>
+    <script src="js/admin.js"></script>
+
+</body>
+
+</html>
+
+{% endblock contenido %}

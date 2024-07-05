@@ -4,6 +4,7 @@ from .models import TipoProducto
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ValidationError
+from .models import *
 import re
 from django import forms
 
@@ -19,13 +20,6 @@ class ProductoForm(forms.ModelForm):
     stock = forms.IntegerField(min_value=1)
     valor = forms.IntegerField(min_value=1)
     
-    def clean_nombre(self):
-        nombre = self.cleaned_data.get('nombre')
-        existe = Producto.objects.filter(nombre__iexact=nombre).exists()
-        if existe:
-            raise forms.ValidationError('El nombre debe de ser único')
-        return nombre
-    
     class Meta:
         model = Producto
         fields = '__all__'
@@ -35,21 +29,16 @@ class ModificarProductoForm(forms.ModelForm):
     nombre = forms.CharField(min_length=3, max_length=50)
     stock = forms.IntegerField(min_value=1)
     valor = forms.IntegerField(min_value=1)
-    producto_id = forms.IntegerField(widget=forms.HiddenInput())
-    
-    def clean_nombre(self):
-        nombre = self.cleaned_data.get('nombre')
-        producto_id = self.cleaned_data.get('producto_id')
-        existe = Producto.objects.filter(nombre__iexact=nombre).exclude(id=producto_id).exists()
-        if existe:
-            raise forms.ValidationError('El nombre debe de ser único')
-        return nombre
-    
     
     class Meta:
         model = Producto
         fields = ['nombre', 'stock', 'valor']
 
+class ModificarPedidoForm(forms.ModelForm):
+    
+    class Meta:
+        model = Pedido
+        fields = ['estado']
 
 class ModificarPersonaForm(forms.ModelForm):
     
