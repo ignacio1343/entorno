@@ -157,7 +157,7 @@
                                             placeholder="Ingrese RUT">
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <button type="submit" id="buyButton" class="btn btn-success">Realizar compra</button>
+                                        <a href="{% url 'crear_pedido' %}" class="btn btn-primary">Finalizar Compra</a>
                                         <button type="button" class="btn btn-danger" id="clearCart" onclick="redirectToHash()">Cancelar compra</button>
                                     </div>
                                 </div>

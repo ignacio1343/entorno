@@ -5,12 +5,18 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from functools import wraps
+from django.core.exceptions import ValidationError
+
 
 from .models import Producto, Carrito, ItemCarrito, TipoProducto
 from .forms import ProductoForm, CustomUserCreationForm, ModificarProductoForm, TipoProductoForm, AdminCreationForm
 from .serializers import ProductoSerializer
+from .models import Carrito, Producto, ItemCarrito, Pedido, PedidoProducto
+from .models import *
+from .forms import *
 
 # Decorador para restringir vistas a administradores
 def admin_required(view_func):
@@ -150,6 +156,36 @@ def eliminarusuario(request, id):
     return redirect('usuarios')
 
 @admin_required
+def pedidos(request):
+    pedidos = Pedido.objects.all()
+    for pedido in pedidos:
+        pedido.calcular_total()  # Calcula y guarda el total
+        pedido.productos = pedido.obtener_productos()
+    paginator = Paginator(pedidos, 4)
+
+    page = request.GET.get('page')
+    try:
+        pedidos_paginados = paginator.get_page(page)
+    except PageNotAnInteger:
+        pedidos_paginados = paginator.get_page(1)
+    except EmptyPage:
+        pedidos_paginados = paginator.get_page(paginator.num_pages)
+
+    return render(request, 'Otaku_ody/pedidos.html', {'pedidos': pedidos, 'entity': pedidos_paginados, 'paginator': paginator})
+
+@admin_required
+def modificarpedido(request, id):
+    pedidos = get_object_or_404(Pedido, id=id)
+    form = ModificarPedidoForm(instance=pedidos)
+    if request.method == 'POST':
+        form = ModificarPedidoForm(request.POST, request.FILES, instance=pedidos)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Pedido agregado')
+            return redirect('pedidos')
+    return render(request, 'Otaku_ody/modificarpedido.html', {'form': form})
+
+@admin_required
 def tipoproducto(request):
     productos = TipoProducto.objects.all()
     return render(request, 'Otaku_ody/tipoproducto.html', {'productos': productos})
@@ -219,10 +255,10 @@ def test(request):
     productos = Producto.objects.all()
     return render(request, 'Otaku_ody/test.html', {'productos': productos})
 
+@login_required
 def carrito(request):
     return render(request, 'Otaku_ody/carrito.html')
 
-# Vistas para carrito de compras
 def get_or_create_cart(request):
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(usuario=request.user)
@@ -231,6 +267,7 @@ def get_or_create_cart(request):
         carrito, created = Carrito.objects.get_or_create(session_key=session_key)
     return carrito
 
+@login_required
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     carrito = get_or_create_cart(request)
@@ -240,24 +277,42 @@ def agregar_al_carrito(request, producto_id):
         item.save()
     return redirect('ver_carrito')
 
+@login_required
 def ver_carrito(request):
     carrito = get_or_create_cart(request)
     items = carrito.items.all()
     total = sum(item.producto.valor * item.cantidad for item in items)
     return render(request, 'Otaku_ody/carrito.html', {'items': items, 'total': total})
 
+@login_required
 def eliminar_del_carrito(request, item_id):
     item = get_object_or_404(ItemCarrito, id=item_id)
     item.delete()
     return redirect('ver_carrito')
 
-# Vista para pedidos
-def pedidos(request):
-    return render(request, 'Otaku_ody/pedidos.html')
+@login_required
+def crear_pedido(request):
+    carrito = get_or_create_cart(request)
+    pedido = Pedido.objects.create(usuario=request.user)
+    
+    # Verificación y actualización del stock
+    for item in carrito.items.all():
+        if item.producto.stock < item.cantidad:
+            raise ValidationError(f'No hay suficiente stock para el producto {item.producto.nombre}')
+        item.producto.stock -= item.cantidad
+        item.producto.save()
+        PedidoProducto.objects.create(pedido=pedido, producto=item.producto, cantidad=item.cantidad)
+    
+    pedido.calcular_total()
+    pedido.save()
+    carrito.delete()  # Limpiar el carrito después de crear el pedido
+    return redirect('ver_pedido', pedido_id=pedido.id)
 
-def listapedido(request):
-    pedidos = PedidoProducto.objects.all()
-    return render(request, 'Otaku_ody/pedidos.html', {'pedidos': pedidos})
+@login_required
+def ver_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    items = pedido.items.all()
+    return render(request, 'Otaku_ody/pedido.html', {'pedido': pedido, 'items': items})
 
 # Viewset para productos
 class ProductoViewset(viewsets.ModelViewSet):
