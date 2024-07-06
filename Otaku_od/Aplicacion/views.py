@@ -101,7 +101,8 @@ def contacto(request):
 # Vistas para administración
 @admin_required
 def administracion(request):
-    return render(request, 'Otaku_ody/administracion.html')
+    total_pedidos = Pedido.calcular_total_todos_pedidos()
+    return render(request, 'Otaku_ody/administracion.html', {'total_pedidos': total_pedidos})
 
 @admin_required
 def listaproducto(request):
@@ -144,6 +145,8 @@ def modificarproducto(request, id):
 @admin_required
 def eliminarproducto(request, id):
     producto = get_object_or_404(Producto, id=id)
+    if producto.imagen:
+        producto.imagen.delete()
     producto.delete()
     messages.warning(request, 'Producto Eliminado')
     return redirect('listaproducto')
@@ -293,7 +296,9 @@ def crearadmin(request):
 
 # Vista para estadísticas
 def estadisticas(request):
-    return render(request, 'Otaku_ody/estadisticas.html')
+    total_pedidos = Pedido.calcular_total_todos_pedidos()
+    return render(request, 'Otaku_ody/estadisticas.html', {'total_pedidos': total_pedidos})
+
 
 # Vista de prueba
 def test(request):
@@ -362,11 +367,18 @@ def eliminar_del_carrito(request, item_id):
     return redirect('ver_carrito')
 
 @login_required
+def limpiar_carrito(request):
+    carrito = get_or_create_cart(request)
+    carrito.items.all().delete()
+    return redirect('index')
+
+@login_required
 def crear_pedido(request):
+    
     if request.method == 'POST':
         # Obtener los datos del formulario
         metodo_pago = request.POST.get('metodo_pago')
-        card_number = request.POST.get('cardNumber')
+        cardNumber = request.POST.get('cardNumber')
         expiration_date = request.POST.get('expirationDate')
         cvv = request.POST.get('cvv')
         cardholder_name = request.POST.get('cardholderName')
@@ -382,43 +394,30 @@ def crear_pedido(request):
         # Validar y procesar los datos según sea necesario
         
         # Crear el pedido
-        pedido = Pedido.objects.create(
-            usuario=request.user,
-            metodo_pago=metodo_pago,
-            direccion_entrega=address,
-            region=region,
-            comuna=comuna,
-            metodo_envio=metodo_envio,
-            telefono=phone,
-            nombre_receptor=recipient_name,
-            apellido_receptor=recipient_last_name,
-            rut=rut
-        )
-
-        # Procesar los productos del carrito y crear los objetos PedidoProducto
-        carrito = get_or_create_cart(request)
-
-        for item in carrito.items.all():
-            if item.producto.stock < item.cantidad:
-                pedido.delete()  # Eliminar el pedido si no hay suficiente stock
-                messages.error(request, f'No hay suficiente stock para el producto {item.producto.nombre}')
-                return redirect('ver_carrito')
-
-            item.producto.stock -= item.cantidad
-            item.producto.save()
-
-            PedidoProducto.objects.create(pedido=pedido, producto=item.producto, cantidad=item.cantidad)
-
-        pedido.calcular_total()
-
-        carrito.items.all().delete()
-
-        messages.success(request, "Pedido creado con éxito.")
-        return redirect('ver_carrito')
-
-
-@login_required
-def crear_pedido(request):
+        if pedido:
+            pedido.metodo_pago = metodo_pago
+            pedido.direccion_entrega = address
+            pedido.region = region
+            pedido.comuna = comuna
+            pedido.metodo_envio = metodo_envio
+            pedido.telefono = phone
+            pedido.nombre_receptor = recipient_name
+            pedido.apellido_receptor = recipient_last_name
+            pedido.rut = rut
+            pedido.save()
+        else:
+            pedido = Pedido.objects.create(
+                usuario=request.user,
+                metodo_pago=metodo_pago,
+                direccion_entrega=address,
+                region=region,
+                comuna=comuna,
+                metodo_envio=metodo_envio,
+                telefono=phone,
+                nombre_receptor=recipient_name,
+                apellido_receptor=recipient_last_name,
+                rut=rut
+            )
     carrito = get_or_create_cart(request)
     
     if not carrito.items.exists():
@@ -451,6 +450,7 @@ def ver_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
     items = pedido.items.all()
     return render(request, 'Otaku_ody/pedido.html', {'pedido': pedido, 'items': items})
+
 
 # Viewset para productos
 class ProductoViewset(viewsets.ModelViewSet):

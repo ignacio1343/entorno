@@ -57,6 +57,7 @@ urlpatterns = [
     path('agregar-al-carrito/<int:producto_id>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('ver-carrito/', views.ver_carrito, name='ver_carrito'),
     path('eliminar-del-carrito/<int:item_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('limpiar_carrito', limpiar_carrito, name='limpiar_carrito'),
     path('carrito/crear_pedido/', views.crear_pedido, name='crear_pedido'),
     path('pedido/<int:pedido_id>/', views.ver_pedido, name='ver_pedido'),
     path('api/', include(router.urls)),

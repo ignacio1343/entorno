@@ -22,18 +22,21 @@
                     <div class="mb-3">
                         <h3 class="fw-bold fs-4 mb-3">Panel de administrador</h3>
                         <div class="row">
-                            <div class="col-12 col-md-4">
-                                <div class="card h-100"> <!-- Añadimos la clase h-100 para hacer que el div tenga la misma altura que los otros -->
-                                    <img class="card img-fluid" src="{% static 'img/empresario.jpg' %}" alt="Card image" style="max-width: 100%; height: auto;">
-                                    <div class="card-body d-flex flex-column justify-content-between"> <!-- Cambiamos la disposición del contenido de la tarjeta -->
-                                        <div>
-                                            <h4 class="card-title">Nicolas Liñan De Ariza Fernandez</h4>
-                                            <p class="card-text">Bienvenido nuevamente al panel de administrador.</p>
+                            {% if user.is_authenticated %}
+                                {% csrf_token %}
+                                <div class="col-12 col-md-4">
+                                    <div class="card h-100"> <!-- Añadimos la clase h-100 para hacer que el div tenga la misma altura que los otros -->
+                                        <img class="card img-fluid" src="{% static 'img/empresario.jpg' %}" alt="Card image" style="max-width: 100%; height: auto;">
+                                        <div class="card-body d-flex flex-column justify-content-between"> <!-- Cambiamos la disposición del contenido de la tarjeta -->
+                                            <div>
+                                                <h4 class="card-title">Hola!, {{user.username}}</h4>
+                                                <p class="card-text">Bienvenido nuevamente al panel de administrador.</p>
+                                            </div>
+                                            <a href="pedidos.html" class="btn btn-primary mt-auto">Revisar pedidos recientes</a> <!-- Alineamos el botón en la parte inferior -->
                                         </div>
-                                        <a href="pedidos.html" class="btn btn-primary mt-auto">Revisar pedidos recientes</a> <!-- Alineamos el botón en la parte inferior -->
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             
                             <div class="col-12 col-md-4">
                                 <div class="card border-0">
@@ -41,7 +44,7 @@
                                         <h5 class="mb-2 fw-bold">Ganancias del mes</h5>
                                     </div>
                                     <p class="mb-2 fw-bold">
-                                        $60.324.600
+                                        ${{ total_pedidos|floatformat:0 }}
                                     </p>
                                     <div class="mb-0">
                                         <span class="badge text-success me-2">
@@ -52,6 +55,7 @@
                                         </span>
                                     </div>
                                 </div>
+                            </div>
                                 <div class="col-12 col-md-4">
                                     <div class="card border-0">
                                         <div class="card-body py-4">

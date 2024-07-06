@@ -42,7 +42,7 @@ class Pedido(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     estado =models.CharField(max_length=50, choices= sorted(ESTADO, key=lambda x: x[1]),default="Pagado")
 
-    def calcular_total(self):
+    def calcular_total(self): 
         total = sum(item.producto.valor * item.cantidad for item in self.items.all())
         self.total = total
         self.save()
@@ -50,7 +50,11 @@ class Pedido(models.Model):
 
     def obtener_productos(self):
         return [f'{item.cantidad} x {item.producto.nombre}' for item in self.items.all()]
-    
+
+    @classmethod
+    def calcular_total_todos_pedidos(cls):
+        total = cls.objects.aggregate(total=models.Sum('total'))['total']
+        return total if total is not None else 0.00
 
     def __str__(self):
         productos_str = ', '.join(self.obtener_productos())

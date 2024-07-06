@@ -8,3 +8,6 @@ class AplicacionConfig(AppConfig):
 class AppConfig(AppConfig):
     name = 'app'
     verbose_name = "Otaku Odyssey"
+    
+from django.apps import AppConfig
+
