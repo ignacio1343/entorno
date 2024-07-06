@@ -11,22 +11,22 @@
 <body>
     {% load humanize  %}
     <main>
-        <form method="get" action="{% url 't_productos' %}">
-            <label for="tipo">Filtrar por tipo de producto:</label>
-            <select name="tipo" id="tipo">
-                <option value="">Todos los tipos</option>
-                {% for tipo in tipos_productos %}
-                    <option value="{{ tipo.nombre }}" {% if tipo.nombre == tipo_seleccionado %}selected{% endif %}>{{ tipo.nombre }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit">Filtrar</button>
-        </form>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="mx-lg-5 mt-4 p-5 mb-4 bg-dark text-white rounded">
                         <h1 class="text-center pt-1 fw-bold">Productos</h1>
                         <h3 class="text-center pb-5">Acá puedes ver algunos de nuestros productos!</h3>
+                        <form method="get" action="{% url 't_productos' %}" class="d-flex align-items-center mb-3 rounded" style="max-width: 600px;">
+                            <label for="tipo" class="form-label me-2" style="font-size: 0.875rem;">Filtrar por Categoria:</label>
+                            <select name="tipo" id="tipo" class="form-select form-select-sm me-2" style="width: auto; font-size: 0.875rem;">
+                                <option value="">Todos los tipos</option>
+                                {% for tipo in tipos_productos %}
+                                    <option value="{{ tipo.nombre }}" {% if tipo.nombre == tipo_seleccionado %}selected{% endif %}>{{ tipo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+                        </form>
                         <div class="row row-cols-1 row-cols-md-4 g-4">
                             {% for p in entity %}
                             <div class="col">
@@ -37,14 +37,16 @@
                                     </div>
                                     {% endif %}
                                     <div class="card-body d-flex flex-column justify-content-between">
-                                        <h4 class="card-title">{{p.nombre}}</h4>
+                                        <h4 class="card-title fw-bold">{{p.nombre}}</h4>
                                         <p class="card-text">${{p.valor | intcomma}}</p>
                                         <div class="mt-auto">
-                                            <form action="{% url 'agregar_al_carrito' p.id %}" method="post">
+                                            <form action="{% url 'agregar_al_carrito' p.id %}" method="post" class="d-flex flex-column align-items-start">
                                                 {% csrf_token %}
-                                                <label for="cantidad">Cantidad:</label>
-                                                <input type="number" name="cantidad" id="cantidad" min="1" value="1">
-                                                <button type="submit" class="btn btn-sm btn-outline-secondary">Añadir al carrito</button>
+                                                <div class="form-group mb-2">
+                                                    <label for="cantidad" class="form-label">Cantidad:</label>
+                                                    <input type="number" name="cantidad" id="cantidad" min="1" value="1" class="form-control">
+                                                </div>
+                                                <button type="submit" class="btn btn-success btn-sm">Añadir al carrito</button>
                                             </form>
                                         </div>
                                     </div>
