@@ -199,12 +199,17 @@ def eliminarusuario(request, id):
 @admin_required
 def pedidos(request):
     pedidos = Pedido.objects.all()
-    for pedido in pedidos:
-        pedido.calcular_total()  # Calcula y guarda el total
-        pedido.productos = pedido.obtener_productos()
-    paginator = Paginator(pedidos, 4)
 
+    for pedido in pedidos:
+        pedido.calcular_total()
+        pedido.productos = pedido.obtener_productos()
+
+    # Filter AFTER calculating total and products
+    filtered_pedidos = [p for p in pedidos if p.total > 0]
+
+    paginator = Paginator(filtered_pedidos, 4)
     page = request.GET.get('page')
+
     try:
         pedidos_paginados = paginator.get_page(page)
     except PageNotAnInteger:
@@ -212,7 +217,11 @@ def pedidos(request):
     except EmptyPage:
         pedidos_paginados = paginator.get_page(paginator.num_pages)
 
-    return render(request, 'Otaku_ody/pedidos.html', {'pedidos': pedidos, 'entity': pedidos_paginados, 'paginator': paginator})
+    return render(request, 'Otaku_ody/pedidos.html', {
+        'pedidos': pedidos,  # Pass all orders for potential use in the template
+        'entity': pedidos_paginados,
+        'paginator': paginator
+    })
 
 @admin_required
 def modificarpedido(request, id):
