@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from functools import wraps
+from django.db import transaction
 from django.core.exceptions import ValidationError
 
 
@@ -17,6 +18,8 @@ from .serializers import ProductoSerializer
 from .models import Carrito, Producto, ItemCarrito, Pedido, PedidoProducto
 from .models import *
 from .forms import *
+from .models import Pedido, PedidoProducto
+from .enumeraciones import METODO_PAGO, METODO_ENVIO
 
 # Decorador para restringir vistas a administradores
 def admin_required(view_func):
@@ -383,11 +386,10 @@ def limpiar_carrito(request):
 
 @login_required
 def crear_pedido(request):
-    
     if request.method == 'POST':
-        # Obtener los datos del formulario
+        # Get form data
         metodo_pago = request.POST.get('metodo_pago')
-        cardNumber = request.POST.get('cardNumber')
+        card_number = request.POST.get('cardNumber') 
         expiration_date = request.POST.get('expirationDate')
         cvv = request.POST.get('cvv')
         cardholder_name = request.POST.get('cardholderName')
@@ -400,21 +402,13 @@ def crear_pedido(request):
         recipient_last_name = request.POST.get('recipientLastName')
         rut = request.POST.get('rut')
 
-        # Validar y procesar los datos según sea necesario
-        
-        # Crear el pedido
-        if pedido:
-            pedido.metodo_pago = metodo_pago
-            pedido.direccion_entrega = address
-            pedido.region = region
-            pedido.comuna = comuna
-            pedido.metodo_envio = metodo_envio
-            pedido.telefono = phone
-            pedido.nombre_receptor = recipient_name
-            pedido.apellido_receptor = recipient_last_name
-            pedido.rut = rut
-            pedido.save()
-        else:
+        carrito = get_or_create_cart(request)
+        if not carrito.items.exists():
+            messages.error(request, "No puedes crear un pedido con un carrito vacío.")
+            return redirect('ver_carrito')
+
+        # Create the pedido object inside a transaction
+        with transaction.atomic():
             pedido = Pedido.objects.create(
                 usuario=request.user,
                 metodo_pago=metodo_pago,
@@ -427,31 +421,27 @@ def crear_pedido(request):
                 apellido_receptor=recipient_last_name,
                 rut=rut
             )
-    carrito = get_or_create_cart(request)
-    
-    if not carrito.items.exists():
-        messages.error(request, "No puedes crear un pedido con un carrito vacío.")
-        return redirect('ver_carrito')
-    
-    pedido = Pedido.objects.create(usuario=request.user)
-    
-    for item in carrito.items.all():
-        if item.producto.stock < item.cantidad:
-            pedido.delete()  # Eliminar el pedido si no hay suficiente stock
-            messages.error(request, f'No hay suficiente stock para el producto {item.producto.nombre}')
-            return redirect('ver_carrito')
+            try:
+                for item in carrito.items.all():
+                    if item.producto.stock < item.cantidad:
+                        raise ValidationError(f'No hay suficiente stock para el producto {item.producto.nombre}')
+                    
+                    item.producto.stock -= item.cantidad
+                    item.producto.save()
+
+                    PedidoProducto.objects.create(pedido=pedido, producto=item.producto, cantidad=item.cantidad)
+
+            except ValidationError as e:
+                # Rollback the transaction if there's not enough stock
+                transaction.set_rollback(True)
+                messages.error(request, str(e))
+                return redirect('ver_carrito')
         
-        item.producto.stock -= item.cantidad
-        item.producto.save()
-        
-        PedidoProducto.objects.create(pedido=pedido, producto=item.producto, cantidad=item.cantidad)
-    
-    pedido.calcular_total()
-    
-    carrito.items.all().delete()
-    
-    messages.success(request, "Pedido creado con éxito.")
-    return redirect('ver_pedido', pedido_id=pedido.id)
+        pedido.calcular_total()
+        carrito.items.all().delete()
+
+        messages.success(request, "Pedido creado con éxito.")
+        return redirect('ver_pedido', pedido_id=pedido.id)
 
 
 @login_required
