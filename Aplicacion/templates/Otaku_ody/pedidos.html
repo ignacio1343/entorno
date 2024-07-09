@@ -39,23 +39,25 @@
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                            <tbody id="tabla-productos">
-                                                {% for p in entity %}
-                                                    <tr>
-                                                        <td>{{ p.usuario }}</td>
-                                                        <td>{{ p.fecha }}</td>
-                                                        <td>{{ p.total }}</td>
-                                                        <td>{{ p.productos|join:", " }}</td>
-                                                        <td>{{ p.estado }}</td>
-                                                        <td>
-                                                        <div class="btn-group">
-                                                            <a href="{% url 'modificarpedido' p.id %}" class="btn btn-info btn-sm">Editar</a>
-                                                            <a href="{% url 'eliminarpedido' p.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                                                        </div>
-                                                        </td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
+                                                <tbody id="tabla-productos">
+                                                    {% for p in entity %}
+                                                        {% if p.total != 0 %}  
+                                                            <tr>
+                                                                <td>{{ p.usuario }}</td>
+                                                                <td>{{ p.fecha }}</td>
+                                                                <td>{{ p.total }}</td>
+                                                                <td>{{ p.productos|join:", " }}</td>
+                                                                <td>{{ p.estado }}</td>
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a href="{% url 'modificarpedido' p.id %}" class="btn btn-info btn-sm">Editar</a>
+                                                                        <a href="{% url 'eliminarpedido' p.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
                                         </table>
                                     </div>
                                     <div>
@@ -73,8 +75,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="js/producto.js"></script>
-    <script src="js/admin.js"></script>
 
 </body>
 
