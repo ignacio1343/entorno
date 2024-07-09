@@ -44,48 +44,49 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="mx-lg-5 mt-4 mb-4 bg-dark text-white rounded p-4">
-                            <form action="index.html" method="post">
+                            <form id="paymentForm" action="{% url 'crear_pedido' %}" method="post"> 
                                 {% csrf_token %}
                                 <h1>Información del pago</h1>
                                 <div>
                                     <label for="metodo_pago" class="form-label" required>Metodo de pago:</label>
-                                    <select id="metodo_pago" name="metodo_pago" class="form-select" onchange="showPaymentFields()">
-                                        <option selected value="">Selecciona un método de pago</option>
+                                    <select id="metodo_pago" name="metodo_pago" class="form-select" required>
+                                        <option value="">Selecciona un método de pago</option>
                                         <option value="Visa">Visa</option>
                                         <option value="MasterCard">MasterCard</option>
                                         <option value="PayPal">PayPal</option>
                                     </select>
                                 </div>
-                                <div id="paymentFields" style="display: none;">
+                                <div id="paymentFields"> 
                                     <div class="mb-3">
                                         <label for="cardNumber" class="form-label" required>Número de Tarjeta</label>
-                                        <input type="text" required class="form-control" id="cardNumber"
-                                            placeholder="Ingrese el número de tarjeta" oninput="validarNumeroTarjeta(this)">
+                                        <input type="text" class="form-control" id="cardNumber" name="cardNumber"
+                                            placeholder="Ingrese el número de tarjeta" oninput="validarNumeroTarjeta(this)" required>
                                     </div>
+                
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="expirationDate" class="form-label" required>Fecha de Expiración</label>
-                                            <input type="text" class="form-control" id="expirationDate" placeholder="MM/AA"
+                                            <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="MM/AA"
                                                 maxlength="5" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="cvv" class="form-label" required>CVV</label>
-                                            <input type="text" required class="form-control" id="cvv" placeholder="Ingrese el CVV"
-                                                oninput="validarCVV(this)">
+                                            <input type="text" class="form-control" id="cvv" name="cvv" placeholder="Ingrese el CVV"
+                                                oninput="validarCVV(this)" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="cardholderName" class="form-label" required>Nombre del Titular de la Tarjeta</label>
-                                            <input type="text" class="form-control" id="cardholderName"
+                                            <input type="text" class="form-control" id="cardholderName" name="cardholderName"
                                                 placeholder="Ingrese el nombre del titular de la tarjeta" required>
                                         </div>
                                     </div>
                                 </div>
                                 <h1>Datos personales y Envio</h1>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Dirección*</label>
-                                    <input type="text" class="form-control" id="address" placeholder="Ingrese la dirección"
-                                        required>
+                               <div>
+                                    <label for="address" class="form-label" required>Dirección</label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Ingrese la dirección" required>
                                 </div>
+
                                 <div>
                                     <label for="region" class="form-label" required>Seleccione Región:</label>
                                     <select id="region" name="region" class="form-select" onchange="cambiarComunas()">
@@ -116,6 +117,44 @@
                                     </select>
                                 </div>
                                 
+                        <div class="mb-3">
+                            <label for="phone" class="form-label" required>Teléfono</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Ej: 912345678" required>
+                        </div>
+                
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="recipientName" class="form-label" required>Nombre del Receptor</label>
+                                <input type="text" class="form-control" id="recipientName" name="recipientName"
+                                    placeholder="Ingrese el nombre del receptor" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="recipientLastName" class="form-label" required>Apellido del Receptor</label>
+                                <input type="text" class="form-control" id="recipientLastName" name="recipientLastName"
+                                    placeholder="Ingrese el apellido del receptor" required>
+                            </div>
+                        </div>
+                
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="rut" class="form-label" required>Rut</label>
+                                <input type="text" class="form-control" id="rut" name="rut" required oninput="checkRut(this)"
+                                    placeholder="Ingrese RUT">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="metodo_envio" class="form-label" required>Método de Envío</label>
+                                <select id="metodo_envio" name="metodo_envio" class="form-select" required>
+                                    <option value="">Selecciona un método de envío</option>
+                                    <option value="Starken">Starken</option>
+                                    <option value="Chilexpress">Chilexpress</option>
+                                    <option value="Bluexpress">Bluexpress</option>
+                                </select>
+                            </div>
+                        </div>
+                
+                                <button id="finalizarCompraBtn" type="submit" class="btn btn-primary">Finalizar Compra</button>
+                                <a href="{% url 'limpiar_carrito' %}" class="btn btn-danger">Cancelar compra</a>
+                            </form>
                                 <script>
                                     function cambiarComunas() {
                                         var regionSeleccionada = document.getElementById("region").value;
@@ -414,54 +453,71 @@
                                         detallesCompra.style.display = 'block';
                                     }
 
-                                    document.getElementById('finalizarCompraBtn').addEventListener('click', function() {
-                                        // Aquí puedes realizar la validación del formulario
-                                        // Por ejemplo, verifica que todos los campos necesarios estén llenos
-                                        var formValid = validarFormulario(); // Supongamos que validarFormulario() es una función que tú implementas
-                                        
-                                        if (formValid) {
-                                            window.location.href = "{% url 'crear_pedido' %}";
+                                    document.getElementById("finalizarCompraBtn").addEventListener('click', function(event) {
+                                        event.preventDefault(); // Prevent default form submission
+                                    
+                                        if (validateForm()) { // Call your validation function
+                                            document.getElementById("paymentForm").submit(); // Submit if valid
                                         } else {
-                                            // Aquí puedes mostrar un mensaje de error o hacer alguna acción si el formulario no está completo
-                                            alert("Por favor completa todos los campos antes de finalizar la compra.");
+                                            alert("Por favor completa todos los campos correctamente.");
                                         }
                                     });
+                                    function validateForm() {
+                                        // 1. Get all required fields
+                                        const requiredFields = document.querySelectorAll("#paymentForm input[required], #paymentForm select[required]");
+                                    
+                                        // 2. Check if any required field is empty
+                                        for (const field of requiredFields) {
+                                            if (!field.value.trim()) {
+                                                // Field is empty, show an error message (optional)
+                                                showError(field, "Este campo es obligatorio");
+                                                return false; // Form is invalid
+                                            }
+                                        }
+                                    
+                                        // 3. Additional validation for specific fields (examples)
+                                        const cardNumber = document.getElementById("cardNumber").value.trim();
+                                        const expirationDate = document.getElementById("expirationDate").value.trim();
+                                        const cvv = document.getElementById("cvv").value.trim();
+                                        const rut = document.getElementById("rut").value.trim();
+                                    
+                                        if (!isValidCardNumber(cardNumber)) {
+                                            showError(document.getElementById("cardNumber"), "Número de tarjeta inválido");
+                                            return false;
+                                        }
+                                        
+                                        if (!isValidExpirationDate(expirationDate)) {
+                                            showError(document.getElementById("expirationDate"), "Fecha de expiración inválida (MM/AA)");
+                                            return false;
+                                        }
+                                    
+                                        if (!isValidCVV(cvv)) {
+                                            showError(document.getElementById("cvv"), "CVV inválido");
+                                            return false;
+                                        }
+                                    
+                                        if (!checkRut(rut)) {  // Assuming you have the checkRut function from before
+                                            showError(document.getElementById("rut"), "RUT inválido");
+                                            return false;
+                                        }
+                                    
+                                        // 4. If all checks pass, the form is valid
+                                        return true; 
+                                    }
+                                    
+                                    // Helper functions for validation (you'll need to implement these)
+                                    function isValidCardNumber(cardNumber) { /* ... your logic ... */ }
+                                    function isValidExpirationDate(expirationDate) { /* ... your logic ... */ }
+                                    function isValidCVV(cvv) { /* ... your logic ... */ }
+                                    
+                                    function showError(field, message) {
+                                        // Display the error message next to the field (you can customize this)
+                                        const errorElement = document.createElement("div");
+                                        errorElement.classList.add("error-message");
+                                        errorElement.textContent = message;
+                                        field.parentNode.insertBefore(errorElement, field.nextSibling);
+                                    }
                                 </script>
-                                <div>
-                                    <label for="metodo_envio" class="form-label" required>Seleccione Metodo de envio:</label>
-                                    <select id="metodo_envio" name="metodo_envio" class="form-select">
-                                        <option value="">Selecciona un método de envio</option>
-                                        <option value="Starken">Starken</option>
-                                        <option value="Chilexpress">Chilexpress</option>
-                                        <option value="Bluexpress">Bluexpress</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="phone" placeholder="Ej: 912345678" required>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="recipientName" class="form-label">Nombre del Receptor*</label>
-                                        <input type="text" class="form-control" id="recipientName"
-                                            placeholder="Ingrese el nombre del receptor" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="recipientLastName" class="form-label">Apellido del Receptor*</label>
-                                        <input type="text" class="form-control" id="recipientLastName"
-                                            placeholder="Ingrese el apellido del receptor" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="rut" class="form-label">Rut*</label>
-                                        <input type="text" class="form-control" id="rut" name="rut" required oninput="checkRut(this)"
-                                            placeholder="Ingrese RUT">
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <a href="{% url 'crear_pedido' %}" class="btn btn-primary">Finalizar Compra</a>
-                                        <a href="{% url 'limpiar_carrito' %}" class="btn btn-danger">Cancelar compra</a>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>

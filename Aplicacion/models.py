@@ -41,6 +41,27 @@ class Pedido(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     estado =models.CharField(max_length=50, choices= sorted(ESTADO, key=lambda x: x[1]),default="Pagado")
+    metodo_pago = models.CharField(max_length=50, choices=METODO_PAGO, null=True, blank=True)  # Add choices for payment methods
+    direccion_entrega = models.CharField(max_length=200, null=True, blank=True)
+    region = models.CharField(max_length=100, null=True, blank=True)
+    comuna = models.CharField(max_length=100, null=True, blank=True)
+    metodo_envio = models.CharField(max_length=50, choices=METODO_ENVIO, null=True, blank=True)  # Add choices for shipping methods
+    telefono = models.CharField(max_length=20, null=True, blank=True)
+    nombre_receptor = models.CharField(max_length=100, null=True, blank=True)
+    apellido_receptor = models.CharField(max_length=100, null=True, blank=True)
+    rut = models.CharField(max_length=12, null=True, blank=True)  # Adjust max_length for RUT format
+    
+    def set_shipping_info(self, metodo_pago, direccion_entrega, region, comuna, metodo_envio, telefono, nombre_receptor, apellido_receptor, rut):
+        self.metodo_pago = metodo_pago
+        self.direccion_entrega = direccion_entrega
+        self.region = region
+        self.comuna = comuna
+        self.metodo_envio = metodo_envio
+        self.telefono = telefono
+        self.nombre_receptor = nombre_receptor
+        self.apellido_receptor = apellido_receptor
+        self.rut = rut
+        self.save()
 
     def calcular_total(self): 
         total = sum(item.producto.valor * item.cantidad for item in self.items.all())
